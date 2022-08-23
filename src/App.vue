@@ -2,7 +2,9 @@
   <div class="d-flex justify-content-start container ml-5 mt-5 mb-5">
        <div>
         <MonthTitle></MonthTitle>
-        <Days @selectedDay="selectedDay" @resetHour="resetsHour"></Days>
+        <!-- <button @click="inc(11)">add 11</button>
+        <button @click="increase">add 2</button> -->
+        <Days @selectedDay="selectedDay"></Days>
         <Transition name="hours">
           <Hours v-if="daySelected"  @selectedHour="selectedHour" :loader="loader"></Hours>
         </Transition>
@@ -18,7 +20,8 @@ import MonthTitle from './components/MonthTitle.vue';
 import Days from './components/Days.vue';
 import Hours from './components/Hours.vue';
 import Doctors from './components/Doctors.vue';
-import {doctors} from './data.js';
+// import {doctors} from './data.js';
+import { mapActions } from 'vuex';
 
 export default {
   name: 'App',
@@ -48,24 +51,26 @@ export default {
       if (day > 0) {
         this.daySelected = true;
         this.day = day;
+        this.hour = 0;
+        this.$store.dispatch('resetHour', true);
         // console.log(this.day);
       }
     },
-    resetsHour() {
-      this.hour = 0;
-    },
+
     selectedHour(hour) {
       if(hour > 0) {
         this.hourSelected = true;
         this.hour = hour;
+        this.$store.dispatch('resetHour', false);
         // console.log(this.hour);
       }
     },
+      ...mapActions({
+        resetHour: 'resetHour'
+            // inc: 'increment',
+            // increase: 'increase'
+        })
 
-    listDoctors() {
-       console.log(doctors[1].days.September);
-       console.log(doctors[1].days.August);
-    }
   }
 
 }

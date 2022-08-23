@@ -20,7 +20,7 @@ export default {
         activate(day) {
            this.selectedDay = day;
            this.$emit('selectedDay', this.selectedDay);
-           this.$emit('resetHour');
+        //    this.$emit('resetHour');
         }
     }
 }

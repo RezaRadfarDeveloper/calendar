@@ -4,7 +4,7 @@
           <Loading></Loading>
         </div>
         <div v-else>
-        <Doctor  v-for="doctor in doctorsList" :key="doctor.id" :doctor="doctor"></Doctor>
+        <Doctor  v-for="doctor in doctorsList" @click="selectByDoctor(doctor.id)" :key="doctor.id" :doctor="doctor"></Doctor>
         </div>
     </div>
 </template>
@@ -36,6 +36,12 @@ export default {
             setTimeout(() => {
                 this.loading = false;
             }, 2000);
+        },
+        selectByDoctor(id) {
+            const doctor = doctors.find(doc => doc.id === id)
+            this.$store.dispatch('setDoctor', doctor);
+            console.log(doctor);
+
         },
         //  hours cannot be selected without day selected
         selectDoctors() {
