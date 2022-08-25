@@ -1,6 +1,6 @@
 <template>
     <div class="day">
-        <div class="dayCircle" :class="selected ? 'selectedClass' : '' " @click="activate(day)"><span>{{day}}</span></div>
+        <div  :class="[selected ? 'selectedClass' : '', !doctorSelected || doctorHasTheDay ? 'dayCircle' : 'deActiveDay']"  @click="activate(day)"><span>{{day}}</span></div>
     </div>
 </template>
 
@@ -11,6 +11,7 @@ export default {
     props: ['day', 'selectedDay'],
     methods: {
         activate(day) {
+            if(!this.doctorSelected || this.doctorHasTheDay)
             this.$emit('activate',day)
             // this.$store.dispatch('increase')
         },
@@ -22,7 +23,7 @@ export default {
         ...mapGetters(['doctorSelected']),
         doctorHasTheDay() {
             // TBD here we check which days exist for the selected doctor...
-            return this.doctorSelected ;
+            return this.doctorSelected && this.doctorSelected.days.August.indexOf(this.day) !== -1;
         }
 
     }
@@ -61,5 +62,10 @@ export default {
 .selectedClass {
     background-color: rgb(100,175,160);
     color:white;
+}
+
+.deActiveDay {
+    color:gray ;
+    background-color: white;
 }
 </style>
