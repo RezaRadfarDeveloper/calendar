@@ -16,7 +16,7 @@
           <Doctors :daySelected="day"  :hourSelected="hour"></Doctors>
         </div>
     </div>
-    <div>
+    <div class="mb-5">
         <Button :class=" showContinue ? 'd-block' : 'd-none'"></Button>
   </div>
   </div>
@@ -27,6 +27,7 @@
   <div v-if="false" class="d-flex justify-content-start container ml-5 mt-5 mb-5">
     yes
   </div>
+    <Footer></Footer>
 </div>
 </template>
 
@@ -37,9 +38,10 @@ import Hours from './components/Hours.vue';
 import Doctors from './components/Doctors.vue';
 import Steps from './components/Steps.vue';
 import Button from './components/Button.vue';
+import Footer from './components/Footer.vue'
 
 // import {doctors} from './data.js';
-import { mapActions } from 'vuex';
+import { mapActions, mapGetters } from 'vuex';
 
 export default {
   name: 'App',
@@ -49,8 +51,7 @@ export default {
       hourSelected:false,
       loader: false,
       day:0,
-      hour:0,
-      showContinue: false //TBD it should be true when doctor time and day are selected...
+      hour:0
     }
   },
   
@@ -64,13 +65,23 @@ export default {
     Hours,
     Doctors,
     Steps,
-    Button
+    Button,
+    Footer
+},
+
+computed: {
+    showContinue()  {
+      return this.daySelected && this.hourSelected && this.doctorSelected ;
+    },
+
+    ...mapGetters(['doctorSelected'])
 },
   methods: {
     selectedDay(day) {
       this.loader = !this.loader;
       if (day > 0) {
         this.daySelected = true;
+        this.hourSelected = false;
         this.day = day;
         this.hour = 0;
         this.$store.dispatch('resetHour', true);
