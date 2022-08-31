@@ -1,12 +1,10 @@
 <template>
 <div class="d-flex flex-column">
-  <Steps></Steps>
+  <Steps :oldActive="previousStep" :Active="step"></Steps>
   <div>
-    <div v-if="true" class="d-flex justify-content-start container ml-5 mt-5 mb-5">
+    <div v-if="step === 'continue'" class="d-flex justify-content-start container ml-5 mt-5 mb-5">
         <div>
           <MonthTitle></MonthTitle>
-          <!-- <button @click="inc(11)">add 11</button>
-          <button @click="increase">add 2</button> -->
           <Days @selectedDay="selectedDay"></Days>
           <Transition name="hours">
             <Hours v-if="daySelected"  @selectedHour="selectedHour" :loader="loader"></Hours>
@@ -17,16 +15,18 @@
         </div>
     </div>
     <div class="mb-5">
-        <Button :class=" showContinue ? 'd-block' : 'd-none'"></Button>
+        <Button :class=" showContinue && step === 'continue' ? 'd-block' : 'd-none'" :buttonText="step" @click="setStep('continue','appointment')"></Button>
+    </div>
   </div>
+    <div v-if="step === 'appointment'"  class="d-flex flex-column justify-content-start container ml-5 mt-5 mb-5">
+    <Form :buttonClicked="registeredClicked" @resetButton="resetSubmit"></Form>
+    <Button  :class=" step=== 'appointment' ? 'd-block' : 'd-none'" :buttonText="step" @click="setStep('appointment','finalize')"></Button>
   </div>
-    <div v-if="false" class="d-flex justify-content-start container ml-5 mt-5 mb-5">
-
-    hello
-  </div>
-  <div v-if="false" class="d-flex justify-content-start container ml-5 mt-5 mb-5">
+  <div v-if="step === 'finalize'" class="d-flex justify-content-start container ml-5 mt-5 mb-5">
     yes
+    <Button :class=" step === 'finalize' ? 'd-block' : 'd-none'" :buttonText="step" @click="setStep('finalize','continue')"></Button>
   </div>
+  <Back v-if="oldStep !== ''" @click="setStep(twoStepBefore,oldStep)"></Back>
     <Footer></Footer>
 </div>
 </template>
@@ -38,7 +38,9 @@ import Hours from './components/Hours.vue';
 import Doctors from './components/Doctors.vue';
 import Steps from './components/Steps.vue';
 import Button from './components/Button.vue';
-import Footer from './components/Footer.vue'
+import Footer from './components/Footer.vue';
+import Form from './components/Form.vue';
+import Back from './components/Back.vue';
 
 // import {doctors} from './data.js';
 import { mapActions, mapGetters } from 'vuex';
@@ -51,7 +53,16 @@ export default {
       hourSelected:false,
       loader: false,
       day:0,
-      hour:0
+      hour:0,
+      continue:true,
+      appointment:false,
+      finalize:false,
+      stepValue: 'continue',
+      oldStep: '',
+      registeredClicked:false,
+      details: null,
+      twoStepBefore: ''
+    
     }
   },
   
@@ -66,7 +77,9 @@ export default {
     Doctors,
     Steps,
     Button,
-    Footer
+    Footer,
+    Form,
+    Back
 },
 
 computed: {
@@ -74,7 +87,15 @@ computed: {
       return this.daySelected && this.hourSelected && this.doctorSelected ;
     },
 
-    ...mapGetters(['doctorSelected'])
+    ...mapGetters(['doctorSelected']),
+
+    step() {
+      return this.stepValue;
+    },
+    previousStep() {
+      return  this.oldStep;
+    }
+
 },
   methods: {
     selectedDay(day) {
@@ -85,24 +106,36 @@ computed: {
         this.day = day;
         this.hour = 0;
         this.$store.dispatch('resetHour', true);
-        // console.log(this.day);
       }
     },
-
     selectedHour(hour) {
       if(hour > 0) {
         this.hourSelected = true;
         this.hour = hour;
         this.$store.dispatch('resetHour', false);
-        // console.log(this.hour);
       }
+    },
+
+    registerDetails() {
+        this.registeredClicked = true;
     },
       ...mapActions({
         resetHour: 'resetHour'
-            // inc: 'increment',
-            // increase: 'increase'
-        })
+        }),
+      setStep(oldValue,newValue) {
 
+        this.stepValue = newValue;
+        this.oldStep = oldValue;
+        oldValue === 'continue' ? this.registeredClicked = false : this.registeredClicked = true; 
+          
+          if(this.oldStep === 'appointment')
+        this.twoStepBefore = 'continue';
+        else if( this.oldStep ==='finalize')
+        this.twoStepBefore = 'appointment'
+        else 
+        this.twoStepBefore= ''
+      }
+      
   }
 
 }
@@ -127,6 +160,20 @@ computed: {
   /* position: absolute;
   top: 20px;
   left: 400px; */
+}
+.back-section {
+  widows: 950px;
+  height: 41px;
+  margin-left: 60px;
+}
+
+.back-section-btn {
+  background: transparent;
+  border: none;
+}
+
+.back-span {
+  margin-right: 5px;
 }
 </style>
 

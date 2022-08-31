@@ -1,7 +1,13 @@
 <template>
-    <button class="continue">Continue</button>
+    <div class="button-wrapper">
+    <button class="continue">{{buttonText}}</button>
+    </div>
 </template>
-<script></script>
+<script>
+export default {
+    props:['buttonText']
+}
+</script>
 <style>
 .continue {
     background: #1b6893 !important;
@@ -13,6 +19,12 @@
     display: block;
     border-radius: 0px;
     font-family: 'Source Sans Pro', sans-serif;
+}
+
+.button-wrapper {
+    width: 950px;
+    height: 45px;
+    margin: 30px 0;
 }
 
 </style>

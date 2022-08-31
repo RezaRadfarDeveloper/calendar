@@ -40,7 +40,6 @@ export default {
         selectByDoctor(id) {
             const doctor = doctors.find(doc => doc.id === id)
             this.$store.dispatch('setDoctor', doctor);
-            console.log(doctor);
 
         },
         //  hours cannot be selected without day selected
