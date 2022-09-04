@@ -17,18 +17,21 @@
         <div class="row-name">
             <div class="name-row-first">
                 <label for="" class="label-general">First Name*</label>
-                <input type="text" v-model="patientName">
+                <input @keyup="updateValidation" type="text" :class="{'is-invalid': formErrors.name &&  getValidationClicked}" v-model="patientName">
+                <div v-if="formErrors.name !== '' && getValidationClicked" :class="{'is-invalid-text': formErrors.name &&  getValidationClicked}"> {{errors.name}}</div>
             </div>
             <div class="name-row-first">
                 <label for="" class="label-general">Last Name*</label>
-                <input type="text" v-model="patientFamily">
+                <input @keyup="updateValidation" type="text" :class="{'is-invalid': formErrors.family &&  getValidationClicked}" v-model="patientFamily">
+                <div v-if="formErrors.family !== '' && getValidationClicked " :class="{'is-invalid-text': formErrors.family &&  getValidationClicked}"> {{formErrors.family}}</div>
             </div>
         </div>
         
         <div class="row-birth">
             <div class="birth-date">
                 <label for="" class="birth-label">Date of Birth*</label>
-                <input type="date" name="birth_date" id="birth-date" v-model="dateOfBirth">
+                <input type="date" name="birth_date" id="birth-date" :class="{'is-invalid': formErrors.dateOfBirth &&  getValidationClicked}" v-model="dateOfBirth">
+                <div v-if="formErrors.dateOfBirth !== '' && getValidationClicked " :class="{'is-invalid-text': formErrors.dateOfBirth &&  getValidationClicked}"> {{formErrors.dateOfBirth}}</div>
             </div>
             
         </div>
@@ -40,7 +43,8 @@
         <div class="d-flex justify-content-between">
             <div class="name-row-first">
                         <label class="label-general" for="">Mobile*</label>
-                        <input type="text" v-model="mobile">
+                        <input type="text" @keyup="updateValidation" v-model="mobile" :class="{'is-invalid': formErrors.mobile &&  getValidationClicked}">
+                        <div v-if="formErrors.mobile !== '' && getValidationClicked" :class="{'is-invalid-text': formErrors.mobile &&  getValidationClicked}"> {{formErrors.mobile}}</div>
             </div>
             <div class="name-row-first">
                 <label class="label-general" for="">Email (Optional)</label>
@@ -52,6 +56,8 @@
 </template>
 
 <script>
+import { mapGetters, mapActions } from 'vuex';
+
 export default {
     props: ['buttonClicked'],
     data() {
@@ -61,13 +67,48 @@ export default {
             dateOfBirth: '',
             mobile: '',
             email:'',
-            title: ''
+            title: '',
+            errors: {
+                name: 'name is required',
+                family: 'family is required',
+                mobile: 'mobile is required',
+                dateOfBirth: 'date of birth is required'
+            }
         }
     },
     methods: {
         updateButtonStatus() {
             this.$emit('resetButton', this.title);
-        }
+        },
+        updateValidation() {
+               this.validateForm(!this.hasError);
+               this.setFormFields({
+                name: this.patientName,
+                family: this.patientFamily,
+                dateOfBirth:this.dateOfBirth ,
+                mobile: this.mobile,
+                title: this.title,
+                email: this.email
+               });
+
+               this.setFormErrors({
+                name:this.patientName.trim() === '' ?'name is required': '',
+                family: this.patientFamily.trim()=== '' ?'family is required': '',
+                mobile: this.mobile.trim().length !== 8  ?'mobile is required': '',
+                dateOfBirth: this.dateOfBirth.trim()=== '' ?'date of birth is required': '',
+               })
+        },
+        ...mapActions(['validateForm', 'setFormFields','setFormErrors'])
+
+    },
+    computed: {
+        hasError() {
+            return this.patientFamily.trim() === '' ||
+            this.patientName.trim() === '' ||
+            (this.mobile.length !== 8) || 
+            this.dateOfBirth === ''
+        },
+        ...mapGetters(['formIsValidated','formErrors', 'formFields','getValidationClicked', 'formErrors'])
     },
 
     watch: {
@@ -242,5 +283,13 @@ export default {
     flex-direction: row;
     grid-gap: 30px;
     gap: 30px;
+}
+
+.is-invalid {
+    border: red solid 1px !important;
+}
+
+.is-invalid-text {
+    color: red;
 }
 </style>

@@ -23,7 +23,23 @@ const store = createStore({
         return {
             counter:0,
             resetHour: false,
-            selectedDoctor: null
+            selectedDoctor: null,
+            formIsValid: false,
+            formFields: {
+                name: '',
+                family: '',
+                dateOfBirth: '',
+                mobile: '',
+                title: '',
+                email: ''
+            },
+            formErrors: {
+                name:'name is required',
+                family: 'family is required',
+                mobile: 'mobile is required',
+                dateOfBirth: 'date of birth is required'
+            },
+            validationClicked: false
         }
     },
     mutations: {
@@ -39,6 +55,18 @@ const store = createStore({
 
         setDoctor(state, payload) {
             state.selectedDoctor = payload;
+        },
+        validateForm(state, payload) {
+            state.formIsValid = payload;
+        },
+        setValidationClicked(state, payload) {
+            state.validationClicked = payload
+        },
+        setFormFields(state, payload) {
+            state.formFields = payload;
+        },
+        setFormErrors(state, payload) {
+            state.formErrors = payload;
         }
     },
     actions: {
@@ -53,8 +81,21 @@ const store = createStore({
             },
             setDoctor(context, payload) {
                 context.commit('setDoctor', payload);
+            },
+
+            validateForm(context,payload) {
+                context.commit('validateForm', payload);
+            },
+            setValidationClicked(context, payload) {
+                context.commit('setValidationClicked',payload)
+            },
+            setFormFields(context,payload) {
+                context.commit('setFormFields', payload);
+            },
+            setFormErrors(context, payload) {
+                context.commit('setFormErrors', payload);
             }
-    },
+     },
     getters: {
         finalCounter(state) {
            return  state.counter * 3;
@@ -65,7 +106,24 @@ const store = createStore({
         },
         doctorSelected(state) {
             return state.selectedDoctor;
+        },
+
+        formIsValidated(state) {
+            return state.formIsValid;
+        },
+
+        formFields(state) {
+            return state.formFields
+        },
+
+        formErrors(state) {
+            return state.formErrors;
+        },
+
+        getValidationClicked(state) {
+            return state.validationClicked;
         }
+       
     }
 })
 

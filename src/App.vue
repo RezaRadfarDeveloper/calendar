@@ -19,14 +19,15 @@
     </div>
   </div>
     <div v-if="step === 'appointment'"  class="d-flex flex-column justify-content-start container ml-5 mt-5 mb-5">
-    <Form :buttonClicked="registeredClicked" @resetButton="resetSubmit"></Form>
-    <Button  :class=" step=== 'appointment' ? 'd-block' : 'd-none'" :buttonText="step" @click="setStep('appointment','finalize')"></Button>
+    <Form :buttonClicked="registeredClicked"  @deActiveBtn="deActiveBtn" @resetButton="resetSubmit"></Form>
+    <Button  :class=" step === 'appointment' ? 'd-block' : 'd-none'" :buttonText="step" @click="formIsValidated ? setStep('appointment','finalize') : setErrors()"></Button>
   </div>
   <div v-if="step === 'finalize'" class="d-flex justify-content-start container ml-5 mt-5 mb-5">
     yes
-    <Button :class=" step === 'finalize' ? 'd-block' : 'd-none'" :buttonText="step" @click="setStep('finalize','continue')"></Button>
+    <Button  :class=" step === 'finalize' ? 'd-block' : 'd-none'" :buttonText="step" @click="setStep('finalize','continue')"></Button>
+  
   </div>
-  <Back v-if="oldStep !== ''" @click="setStep(twoStepBefore,oldStep)"></Back>
+  <Back v-if="oldStep !== ''" @click="setStep(twoStepBefore,oldStep);resetValidation();"></Back>
     <Footer></Footer>
 </div>
 </template>
@@ -61,14 +62,10 @@ export default {
       oldStep: '',
       registeredClicked:false,
       details: null,
-      twoStepBefore: ''
+      twoStepBefore: '',
+      hideBtn:true
     
     }
-  },
-  
-  mounted() {
-      // this.listDoctors();
-      // console.log(this.resetHour)
   },
   components: {
     MonthTitle,
@@ -87,13 +84,16 @@ computed: {
       return this.daySelected && this.hourSelected && this.doctorSelected ;
     },
 
-    ...mapGetters(['doctorSelected']),
+    ...mapGetters(['doctorSelected', 'formIsValidated']),
 
     step() {
       return this.stepValue;
     },
     previousStep() {
       return  this.oldStep;
+    },
+    btnHidden() {
+      return this.hideBtn;
     }
 
 },
@@ -108,6 +108,9 @@ computed: {
         this.$store.dispatch('resetHour', true);
       }
     },
+    deActiveBtn(state) {
+      this.hideBtn = state;
+    },
     selectedHour(hour) {
       if(hour > 0) {
         this.hourSelected = true;
@@ -120,9 +123,19 @@ computed: {
         this.registeredClicked = true;
     },
       ...mapActions({
-        resetHour: 'resetHour'
+        resetHour: 'resetHour',
+        setValidationClicked: 'setValidationClicked',
+        setFormFields: 'setFormFields',
+        validateForm: 'validateForm',
+        setFormErrors: 'setFormErrors'
         }),
       setStep(oldValue,newValue) {
+        if(this.step === 'appointment')
+        this.setValidationClicked(true);
+        if(this.step === 'continue')
+        this.setValidationClicked(false);
+        if(this.step !== 'appointment')
+        this.setFormFields({});
 
         this.stepValue = newValue;
         this.oldStep = oldValue;
@@ -134,6 +147,18 @@ computed: {
         this.twoStepBefore = 'appointment'
         else 
         this.twoStepBefore= ''
+      },
+      setErrors() {
+        this.setValidationClicked(true);
+      },
+      resetValidation() {
+        this.validateForm(false);
+        this.setFormFields({});
+        this.setValidationClicked(false);
+        this.setFormErrors({ name:'name is required',
+                family: 'family is required',
+                mobile: 'mobile is required',
+                dateOfBirth: 'date of birth is required'});
       }
       
   }
