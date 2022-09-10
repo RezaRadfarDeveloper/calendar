@@ -1,6 +1,10 @@
 import { createApp } from 'vue';
+import { createRouter, createWebHistory } from 'vue-router';
 import { createStore } from 'vuex';
-import App from './App.vue'
+import App from './App.vue';
+import Find from './components/Find.vue';
+import Hour from './components/Hour.vue';
+import Home from './components/Home.vue';
 
 /* import the fontawesome core */
 import { library } from '@fortawesome/fontawesome-svg-core'
@@ -128,7 +132,16 @@ const store = createStore({
 })
 
 const app =createApp(App);
+const router = createRouter({
+    routes: [
+        { path: '/find', component: Find},
+        { path: '/', component: Home},
+        {path: '/hour', component: Hour}
+    ],
+    history: createWebHistory()
+});
 app.component('font-awesome-icon', FontAwesomeIcon);
 app.use(store);
+app.use(router);
 app.mount('#app')
 import "bootstrap/dist/js/bootstrap.js"
