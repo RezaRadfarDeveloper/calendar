@@ -5,23 +5,25 @@
 </template>
 
 <script>
-import { mapGetters } from 'vuex';
+import { mapActions, mapGetters } from 'vuex';
 export default {
     props: ['hour', 'selectedHour'],
     methods: {
         activate(hour) {
+        this.setSelectedHour(hour)
             this.$emit('activate',hour)
             // this.$store.dispatch('increment', 6);
         },
+        ...mapActions(['setSelectedHour'])
     },
     computed: {
         selected() {
-            return this.hour === this.selectedHour && !this.$store.getters.hourSelected;
+            return (this.hour === this.selectedHour || this.hour === this.getSelectedHour) && !this.$store.getters.hourSelected;
         },
         // counter() {
         //   return   this.$store.getters.finalCounter;
         // }
-        ...mapGetters(['finalCounter'])
+        ...mapGetters(['finalCounter', 'getSelectedHour'])
     }
 }
 </script>

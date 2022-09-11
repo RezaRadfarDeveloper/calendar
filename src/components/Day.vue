@@ -5,22 +5,24 @@
 </template>
 
 <script>
-import { mapGetters } from 'vuex';
+import { mapGetters, mapActions } from 'vuex';
 
 export default {
     props: ['day', 'selectedDay'],
     methods: {
         activate(day) {
+            this.setSelectedDay(day);
             if(!this.doctorSelected || this.doctorHasTheDay)
             this.$emit('activate',day)
             // this.$store.dispatch('increase')
         },
+        ...mapActions(['setSelectedDay'])
     },
     computed: {
         selected() {
-            return this.day === this.selectedDay;
+            return this.day === this.selectedDay || this.getSelectedDay === this.day;
         },
-        ...mapGetters(['doctorSelected']),
+        ...mapGetters(['doctorSelected', 'getSelectedDay']),
         doctorHasTheDay() {
             // TBD here we check which days exist for the selected doctor...
             return this.doctorSelected && this.doctorSelected.days.August.indexOf(this.day) !== -1;

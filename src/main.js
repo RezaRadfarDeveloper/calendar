@@ -43,7 +43,9 @@ const store = createStore({
                 mobile: 'mobile is required',
                 dateOfBirth: 'date of birth is required'
             },
-            validationClicked: false
+            validationClicked: false,
+            selectedDay: 0,
+            selectedHour: 0
         }
     },
     mutations: {
@@ -71,6 +73,12 @@ const store = createStore({
         },
         setFormErrors(state, payload) {
             state.formErrors = payload;
+        },
+        setSelectedDay(state, payload) {
+            state.selectedDay = payload;
+        },
+        setSelectedHour(state, payload) {
+            state.selectedHour = payload;
         }
     },
     actions: {
@@ -98,7 +106,14 @@ const store = createStore({
             },
             setFormErrors(context, payload) {
                 context.commit('setFormErrors', payload);
+            },
+            setSelectedDay(context, payload) {
+                context.commit('setSelectedDay', payload);
+            },
+            setSelectedHour(context, payload) {
+                context.commit('setSelectedHour', payload);
             }
+
      },
     getters: {
         finalCounter(state) {
@@ -126,6 +141,12 @@ const store = createStore({
 
         getValidationClicked(state) {
             return state.validationClicked;
+        },
+        getSelectedDay(state) {
+            return state.selectedDay;
+        },
+        getSelectedHour(state) {
+            return state.selectedHour;
         }
        
     }
