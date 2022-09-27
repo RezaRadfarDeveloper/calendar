@@ -94,7 +94,7 @@ export default {
                this.setFormErrors({
                 name:this.patientName.trim() === '' ?'name is required': '',
                 family: this.patientFamily.trim()=== '' ?'family is required': '',
-                mobile: this.mobile.trim().length !== 8  ?'mobile is required': '',
+                mobile: this.mobile.length !== 8  ?'mobile is required': '',
                 dateOfBirth: this.dateOfBirth.trim()=== '' ?'date of birth is required': '',
                })
         },

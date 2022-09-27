@@ -13,6 +13,7 @@
 import Doctor from './Doctor.vue';
 import Loading from './Loading.vue';
 import { doctors } from '../data.js';
+import { mapActions } from 'vuex';
 
 export default {
     data() {
@@ -40,7 +41,8 @@ export default {
         selectByDoctor(id) {
             const doctor = doctors.find(doc => doc.id === id)
             this.$store.dispatch('setDoctor', doctor);
-
+            // we duplicate doctor in an array since we need array of object with more than one element
+            this.setDoctorsList([doctor, doctor]);
         },
         //  hours cannot be selected without day selected
         selectDoctors() {
@@ -65,9 +67,11 @@ export default {
                      return  doctor.days.August.indexOf(day) !== -1;
                 });
                 }
-            
-            return list;
+                this.setDoctorsList(list);
+                return list;
         },
+
+        ...mapActions(['setDoctorsList'])
     },
     watch: {
         hourSelected(oldValue, newValue) {

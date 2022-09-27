@@ -1,13 +1,18 @@
 <template>
     <div class="hour">
-        <div class="hourRectangle" :class="selected ? 'selectedClass' : '' " @click="activate(hour)"><span>{{hour}}</span></div>
+        <div class="hourRectangle"   :class="[selected ? 'selectedClass' : '', disabledHour ?'disHour': '']"  @click="activate(hour)"><span>{{hour}}</span></div>
     </div>
 </template>
 
 <script>
 import { mapActions, mapGetters } from 'vuex';
 export default {
-    props: ['hour', 'selectedHour'],
+    props: ['hour', 'selectedHour', 'disabledHour'],
+    data() {
+        return {
+          
+        }
+    },
     methods: {
         activate(hour) {
         this.setSelectedHour(hour)
@@ -61,5 +66,11 @@ export default {
 .selectedClass {
     background-color: rgb(100,175,160);
     color:white;
+}
+
+.disHour {
+   background-color:  #4e6876;
+   color: white;
+   pointer-events: none;
 }
 </style>

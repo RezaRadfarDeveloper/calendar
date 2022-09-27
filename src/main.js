@@ -5,6 +5,8 @@ import App from './App.vue';
 import Find from './components/Find.vue';
 import Hour from './components/Hour.vue';
 import Home from './components/Home.vue';
+import { doctors } from './data.js';
+
 
 /* import the fontawesome core */
 import { library } from '@fortawesome/fontawesome-svg-core'
@@ -29,6 +31,7 @@ const store = createStore({
             resetHour: false,
             selectedDoctor: null,
             formIsValid: false,
+            doctorsList: doctors,
             formFields: {
                 name: '',
                 family: '',
@@ -79,6 +82,9 @@ const store = createStore({
         },
         setSelectedHour(state, payload) {
             state.selectedHour = payload;
+        },
+        setDoctorsList(state, payload) {
+            state.doctorsList = payload;
         }
     },
     actions: {
@@ -94,7 +100,9 @@ const store = createStore({
             setDoctor(context, payload) {
                 context.commit('setDoctor', payload);
             },
-
+            setDoctorsList(context, payload) {
+                context.commit('setDoctorsList', payload);
+            },
             validateForm(context,payload) {
                 context.commit('validateForm', payload);
             },
@@ -117,9 +125,11 @@ const store = createStore({
      },
     getters: {
         finalCounter(state) {
-           return  state.counter * 3;
+            return  state.counter * 3;
         },
-
+        getDoctorsList(state) {
+            return state.doctorsList;
+        },
         hourSelected(state) {
             return state.resetHour;
         },

@@ -1,6 +1,6 @@
 <template>
     <div class="day">
-        <div  :class="[selected ? 'selectedClass' : '', !doctorSelected || doctorHasTheDay ? 'dayCircle' : 'deActiveDay']"  @click="activate(day)"><span>{{day}}</span></div>
+        <div  :class="[selected ? 'selectedClass' : '', !doctorSelected || doctorHasTheDay ? 'dayCircle' : 'deActiveDay',  disabledDay ?'disDay': '']"  @click="activate(day)"><span>{{day}}</span></div>
     </div>
 </template>
 
@@ -8,7 +8,7 @@
 import { mapGetters, mapActions } from 'vuex';
 
 export default {
-    props: ['day', 'selectedDay'],
+    props: ['day', 'selectedDay', 'disabledDay'],
     methods: {
         activate(day) {
             this.setSelectedDay(day);
@@ -69,5 +69,20 @@ export default {
 .deActiveDay {
     color:gray ;
     background-color: white;
+}
+
+.disDay {
+   background-color:  #4e6876;
+   color: white;
+   pointer-events: none;
+   width: 30px;
+   height: 30px;
+   border-radius: 100%;
+   border:solid 1px rgb(100,175,160);
+   font-size: 13px;
+   font-weight: 600;
+   display: flex;
+   justify-content: center;
+   align-items: center;
 }
 </style>
