@@ -8,7 +8,7 @@ export let doctors = [
         image:'doctor-1.jpeg',
         field: 'Psychiatrist',
         hours: [1,4,5,6,7,8,9,10,12,13,14,15],
-        days:{'August': [1,2,3,5,6,7,8,9,11], 'September': [1,2,3,4,5,6,7,8,9,11]},
+        days:{'Current': [1,2,3,5,6,7,8,9,11], 'NextMonth': [1,2,3,4,5,6,7,8,9,11]},
         centers: ['Auburn', 'Carlton', 'Canterbury', 'Kew', 'Epping']
     },
     {
@@ -17,7 +17,7 @@ export let doctors = [
         image:'doctor-2.jpeg',
         field: 'GP',
         hours: [1,3,4,6,7,9,10,12,13,14,15],
-        days:{'August': [1,2,3,5,6,7,8,11], 'September': [1,2,3,4,6,7,8,9]},
+        days:{'Current': [1,2,3,5,6,7,8,11], 'NextMonth': [1,2,3,4,6,7,8,9]},
         centers: ['Auburn', 'Carlton', 'Canterbury', 'Kew', 'Epping']
     },
     {
@@ -26,7 +26,7 @@ export let doctors = [
         image:'doctor-7.jpeg',
         field: 'GP',
         hours: [3,4,5,6,7,8,12,15],
-        days:{'August': [1,2,3,5,6,7,8,9,11,12], 'September': [1,2,3,4,5,6,7,8,9,11]},
+        days:{'Current': [1,2,3,5,6,7,8,11], 'NextMonth': [1,2,3,4,5,6,7,8,9,11]},
         centers: ['Auburn', 'Carlton', 'Kew', 'Epping']
     },
     {
@@ -35,7 +35,7 @@ export let doctors = [
         image:'doctor-8.jpeg',
         field: 'Dentist',
         hours: [1,3,4,5,6,7,8,9,10,12,13,14,15],
-        days:{'August': [1,3,5,6,7,8,9,11], 'September': [1,2,3,4,5,6,7,8,9,11]},
+        days:{'Current': [1,3,5,6,7,8,9,11], 'NextMonth': [1,2,3,4,5,6,7,8,9,11]},
         centers: ['Auburn', 'Carlton', 'Canterbury', 'Kew', 'Epping']
     },
     {
@@ -44,7 +44,7 @@ export let doctors = [
         image:'doctor-4.jpeg',
         field: 'GP',
         hours: [1,4,5,6,7,8,9,10,12,14,15],
-        days:{'August': [1,2,3,5,6,7,8,9,11],'September': [1,2,3,4,5,6,7,8,9,11]},
+        days:{'Current': [1,2,3,5,6,7,8,9,11],'NextMonth': [1,2,3,4,5,6,7,8,9,11]},
         centers: [ 'Carlton', 'Canterbury', 'Epping']
     },
     {
@@ -53,7 +53,7 @@ export let doctors = [
         image:'doctor-5.jpeg',
         field: 'Psychologist',
         hours: [1,3,4,5,6,7,8,9,10,12,13,14,15],
-        days:{'August': [1,2,3,5,6,7,8,9,11],'September': [1,2,3,4,5,6,7,8,9,11]},
+        days:{'Current': [1,2,3,5,6,7,8,9,11],'NextMonth': [1,2,3,4,5,6,7,8,9,11]},
         centers: ['Auburn','Kew', 'Epping']
     },
     {
@@ -62,7 +62,7 @@ export let doctors = [
         image:'doctor-6.jpeg',
         hours: [1,4,6,7,8,9,10,12,13,14,15],
         field: 'GP',
-        days:{'August':[1,2,3,5,8,9,11], 'September':[1,2,3,4,5,6,7,8,9,11]},
+        days:{'Current':[1,2,3,5,8,9,11], 'NextMonth':[1,2,3,4,5,6,7,8,9,11]},
         centers: ['Canterbury', 'Kew', 'Epping']
     },
     {
@@ -71,7 +71,7 @@ export let doctors = [
         image:'doctor-7.jpeg',
         field: 'Psychologist',
         hours: [1,3,6,7,8,9,10,13,14,15],
-        days:{'August':[1,2,3,5,6,7,8,9,11], 'September':[1,2,3,4,5,6,7,8,9,11]},
+        days:{'Current':[1,2,3,5,6,7,8,9,11], 'NextMonth':[1,2,3,4,5,6,7,8,9,11]},
         centers: ['Auburn', 'Carlton', 'Canterbury']
     }
 ];

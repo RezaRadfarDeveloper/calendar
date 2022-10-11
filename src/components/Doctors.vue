@@ -13,7 +13,7 @@
 import Doctor from './Doctor.vue';
 import Loading from './Loading.vue';
 import { doctors } from '../data.js';
-import { mapActions } from 'vuex';
+import { mapActions, mapGetters } from 'vuex';
 
 export default {
     data() {
@@ -54,7 +54,7 @@ export default {
                 let day = this.daySelected;
 
                  var list =  doctors.filter(function(doctor) {
-                     return  doctor.days.August.indexOf(day) !== -1 &&
+                     return  doctor.days['Current'].indexOf(day) !== -1 &&
                       doctor.hours.indexOf(hour) !== -1;
                    
                 });
@@ -64,7 +64,7 @@ export default {
                
                  let day = this.daySelected;
                  list =  doctors.filter(function(doctor) {
-                     return  doctor.days.August.indexOf(day) !== -1;
+                     return  doctor.days['Current'].indexOf(day) !== -1;
                 });
                 }
                 this.setDoctorsList(list);
@@ -72,6 +72,9 @@ export default {
         },
 
         ...mapActions(['setDoctorsList'])
+    },
+    computed: {
+        ...mapGetters(['getSelectedMonth'])
     },
     watch: {
         hourSelected(oldValue, newValue) {

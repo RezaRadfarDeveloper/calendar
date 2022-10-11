@@ -48,7 +48,14 @@ const store = createStore({
             },
             validationClicked: false,
             selectedDay: 0,
-            selectedHour: 0
+            selectedHour: 0,
+            currentMonth: '',
+            nextMonth: '',
+            selectedMonth: 'Current',
+            daysInCurrentMonth: 0,
+            daysInNextMonth: 0,
+            monthCounter: 1,
+            selectedDays: []
         }
     },
     mutations: {
@@ -85,6 +92,27 @@ const store = createStore({
         },
         setDoctorsList(state, payload) {
             state.doctorsList = payload;
+        },
+        setCurrentMonth(state, payload) {
+            state.currentMonth = payload;
+        },
+        setNextMonth(state, payload) {
+            state.nextMonth = payload;
+        },
+        setSelectedMonth(state, payload) {
+            state.selectedMonth = payload;
+        },
+        setDaysInCurrentMonth(state, payload) {
+            state.daysInCurrentMonth = payload;
+        },
+        setDaysInNextMonth(state, payload) {
+            state.daysInNextMonth = payload;
+        },
+        setMonthCounter(state, payload) {
+            return state.monthCounter= payload;
+        },
+        setSelectedDays(state, payload) {
+            return state.selectedDay = payload;
         }
     },
     actions: {
@@ -120,8 +148,29 @@ const store = createStore({
             },
             setSelectedHour(context, payload) {
                 context.commit('setSelectedHour', payload);
-            }
+            },
+            setCurrentMonth(context, payload) {
+                context.commit('setCurrentMonth', payload);
+            },
 
+            setNextMonth(context, payload) {
+                context.commit('setNextMonth', payload);
+            },
+            setSelectedMonth(context, payload) {
+                context.commit('setSelectedMonth', payload);
+            },
+            setDaysInNextMonth(context, payload) {
+                context.commit('setDaysInNextMonth', payload);
+            },
+            setDaysInCurrentMonth(context, payload) {
+                context.commit('setDaysInCurrentMonth', payload);
+            },
+            setMonthCounter(context, payload) {
+                context.commit('setMonthCounter', payload);
+            },
+            setSelectedDays(context, payload) {
+                context.commit('setSelectedDays', payload);
+            }
      },
     getters: {
         finalCounter(state) {
@@ -157,6 +206,29 @@ const store = createStore({
         },
         getSelectedHour(state) {
             return state.selectedHour;
+        },
+
+        getCurrentMonth(state) {
+            return state.currentMonth;
+        },
+
+        getNextMonth(state) {
+            return state.nextMonth;
+        },
+        getSelectedMonth(state) {
+            return state.selectedMonth;
+        },
+        getDaysInCurrentMonth(state) {
+            return state.daysInCurrentMonth;
+        },
+        getDaysInNextMonth(state) {
+            return state.daysInNextMonth;
+        },
+        getMonthCounter(state) {
+            return state.monthCounter;
+        },
+        getSelectedDays(state) {
+            return state.selectedDays;
         }
        
     }
@@ -175,4 +247,4 @@ app.component('font-awesome-icon', FontAwesomeIcon);
 app.use(store);
 app.use(router);
 app.mount('#app')
-import "bootstrap/dist/js/bootstrap.js"
+// import "bootstrap/dist/js/bootstrap.js"

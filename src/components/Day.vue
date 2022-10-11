@@ -1,6 +1,9 @@
 <template>
     <div class="day">
-        <div  :class="[selected ? 'selectedClass' : '', !doctorSelected || doctorHasTheDay ? 'dayCircle' : 'deActiveDay',  disabledDay ?'disDay': '']"  @click="activate(day)"><span>{{day}}</span></div>
+        <div  :class="[selected ? 'selectedClass' : '', 
+        !doctorSelected || doctorHasTheDay || !(getMonthCounter > 2  || getMonthCounter < 1) ? 'dayCircle' : 'deActiveDay',  
+        disabledDay || getMonthCounter > 2  || getMonthCounter < 1 ?'disDay': '']"  
+        @click="activate(day)"><span>{{day}}</span></div>
     </div>
 </template>
 
@@ -22,19 +25,23 @@ export default {
         selected() {
             return this.day === this.selectedDay || this.getSelectedDay === this.day;
         },
-        ...mapGetters(['doctorSelected', 'getSelectedDay']),
+        ...mapGetters(['doctorSelected', 'getSelectedDay', 'getSelectedMonth', 'getMonthCounter']),
         doctorHasTheDay() {
             // TBD here we check which days exist for the selected doctor...
-            return this.doctorSelected && this.doctorSelected.days.August.indexOf(this.day) !== -1;
+            return this.doctorSelected && this.doctorSelected.days['Current'].indexOf(this.day) !== -1;
         }
-
+    },
+    watch: {
+        disabledDay(oldValue, newValue) {
+            return newValue;
+        }
     }
 }
 </script>
 
 <style>
 .day {
-    width: 16%;
+    width: 14%;
     height: 16%;
     background-color: white;
     display: flex;

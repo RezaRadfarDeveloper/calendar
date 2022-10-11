@@ -1,13 +1,13 @@
 <template>
     <div class="days">
-        <Day v-for="i in 31" :key="i" :disabledDay="!dayDisabled(i)" :selectedDay="selectedDay" :day="i" @activate="activate"></Day>   
+        <Day v-for="i in getDaysInCurrentMonth" :key="i" :disabledDay="!dayDisabled(i)" :selectedDay="selectedDay" :day="i" @activate="activate"></Day>   
     </div>
 </template>
 
 <script>
 import Day from './Day.vue';
 import { doctors } from '../data.js';
-import { mapGetters } from 'vuex';
+import { mapGetters, mapActions } from 'vuex';
 
 export default {
     data() {
@@ -17,6 +17,7 @@ export default {
         }
     },
     mounted() {
+            this.setSelectedMonth('Current');
             this.selectDays();
     },
     components: {
@@ -28,12 +29,17 @@ export default {
            this.$emit('selectedDay', this.selectedDay);
         //    this.$emit('resetHour');
         },
+        dayDisabled(day) {
+            return this.selectDays().indexOf(day) !== -1;
+        },
+        ...mapActions(['setSelectedMonth', 'setSelectedDays']),
         selectDays() {
             this.doctorsList = this.getDoctorsList;
             // console.log(this.doctorsList);
             var days = [];
+            var selectedMonth = this.getSelectedMonth;
             this.doctorsList.filter(function(doctor) {
-                   days = days.concat(doctor.days.August);
+                   days = days.concat(doctor.days[selectedMonth]);
             });
            var count = 0;
            var beforeCount = days.length;
@@ -45,17 +51,12 @@ export default {
                         }
                     }
            } 
-           console.log(days.sort().slice(count, beforeCount));
+           this.setSelectedDays(days.sort().slice(count, beforeCount));
            return days.sort().slice(count, beforeCount);
-        },
-
-        dayDisabled(day) {
-            return this.selectDays().indexOf(day) !== -1;
-
         }
     },
     computed: {
-        ...mapGetters(['getDoctorsList'])
+        ...mapGetters(['getDoctorsList', 'getSelectedMonth', 'getDaysInCurrentMonth'])
     }
 }
 </script>
