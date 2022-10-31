@@ -82,7 +82,7 @@
         return this.daySelected && this.hourSelected && this.doctorSelected ;
       },
   
-      ...mapGetters(['doctorSelected', 'formIsValidated']),
+      ...mapGetters(['doctorSelected', 'formIsValidated', 'formFields']),
   
       step() {
         return this.stepValue;
@@ -127,9 +127,28 @@
           validateForm: 'validateForm',
           setFormErrors: 'setFormErrors'
           }),
+        async signUp() {
+          const response =  await fetch('https://identitytoolkit.googleapis.com/v1/accounts:signUp?key=AIzaSyB5wf4Jymzdk1NWwRxAmdJc4l5_-_bP_GE', 
+            {
+              method:'POST',
+              body: JSON.stringify({
+                email: this.formFields.email,
+                password: '12345678',
+                returnSecureToken: true
+              })
+            });
+                const responsePack = await response.json();
+            if(!response.ok) {
+              alert('There is an error occurred');
+            }
+            console.log(responsePack);
+          },
         setStep(oldValue,newValue) {
-          if(this.step === 'appointment')
-          this.setValidationClicked(true);
+          if(this.step === 'appointment') {
+            this.setValidationClicked(true);
+            if(newValue === 'finalize')
+                  this.signUp();
+          }
           if(this.step === 'continue')
           this.setValidationClicked(false);
           if(this.step !== 'appointment')

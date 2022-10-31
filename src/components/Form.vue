@@ -42,13 +42,13 @@
         </h4>
         <div class="d-flex justify-content-between">
             <div class="name-row-first">
+                <label class="label-general" for="">Email (Optional)</label>
+                <input type="text" v-model="email">
+            </div>
+            <div class="name-row-first">
                         <label class="label-general" for="">Mobile*</label>
                         <input type="text" @keyup="updateValidation" v-model="mobile" :class="{'is-invalid': formErrors.mobile &&  getValidationClicked}">
                         <div v-if="formErrors.mobile !== '' && getValidationClicked" :class="{'is-invalid-text': formErrors.mobile &&  getValidationClicked}"> {{formErrors.mobile}}</div>
-            </div>
-            <div class="name-row-first">
-                <label class="label-general" for="">Email (Optional)</label>
-                <input type="text" v-model="email">
             </div>
         </div>
     </div>
