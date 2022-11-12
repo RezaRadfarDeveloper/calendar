@@ -30,22 +30,6 @@ export default {
            this.$emit('selectedDay', this.selectedDay);
         //    this.$emit('resetHour');
         },
-    //    async setReservation() {
-    //        const reserve = {
-    //             name: 'ali',
-    //             family: 'rad'
-    //         }
-    //         const response = await fetch(`https://calendar-9af77-default-rtdb.firebaseio.com/reservations/5.json`,
-    //         {
-    //             method: 'POST',
-    //             body: JSON.stringify(reserve)
-    //         }
-    //      );
-
-    //      if(!response.ok) {
-    //         console.log('failed');
-    //      }
-    //     },
         dayDisabled(day) {
             return this.selectDays().indexOf(day) !== -1;
         },

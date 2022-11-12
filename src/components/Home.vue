@@ -19,8 +19,9 @@
     </div>
   </div>
     <div v-if="step === 'appointment'"  class="d-flex flex-column justify-content-start container ml-5 mt-5 mb-5">
-    <Form :buttonClicked="registeredClicked"  @deActiveBtn="deActiveBtn" @resetButton="resetSubmit"></Form>
-    <Button  :class=" step === 'appointment' ? 'd-block' : 'd-none'" :buttonText="step" @click="formIsValidated ? setStep('appointment','finalize') : setErrors()"></Button>
+      <SignedUp v-if="getSignedUp"></SignedUp>
+      <Form v-else :buttonClicked="registeredClicked"  @deActiveBtn="deActiveBtn" @resetButton="resetSubmit"></Form>
+    <Button  :class=" step === 'appointment' ? 'd-block' : 'd-none'" :buttonText="step" @click="formIsValidated || getSignedUp ? setStep('appointment','finalize') : setErrors()"></Button>
   </div>
   <div v-if="step === 'finalize'" class="d-flex justify-content-start container ml-5 mt-5 mb-5">
     yes
@@ -41,6 +42,7 @@
   import Button from './Button.vue';
   import Form from './Form.vue';
   import Back from './Back.vue';
+  import SignedUp from './SignedUp.vue';
   
   // import {doctors} from './data.js';
   import { mapActions, mapGetters } from 'vuex';
@@ -74,7 +76,8 @@
       Steps,
       Button,
       Form,
-      Back
+      Back,
+      SignedUp
   },
   
   computed: {
@@ -82,7 +85,7 @@
         return this.daySelected && this.hourSelected && this.doctorSelected ;
       },
   
-      ...mapGetters(['doctorSelected', 'formIsValidated', 'formFields']),
+      ...mapGetters(['doctorSelected', 'formIsValidated', 'formFields', 'getSignedUp']),
   
       step() {
         return this.stepValue;
@@ -125,7 +128,8 @@
           setValidationClicked: 'setValidationClicked',
           setFormFields: 'setFormFields',
           validateForm: 'validateForm',
-          setFormErrors: 'setFormErrors'
+          setFormErrors: 'setFormErrors',
+          setSignedUp: 'setSignedUp'
           }),
         async signUp() {
           const response =  await fetch('https://identitytoolkit.googleapis.com/v1/accounts:signUp?key=AIzaSyB5wf4Jymzdk1NWwRxAmdJc4l5_-_bP_GE', 
@@ -133,7 +137,7 @@
               method:'POST',
               body: JSON.stringify({
                 email: this.formFields.email,
-                password: '12345678',
+                password: this.formFields.password,
                 returnSecureToken: true
               })
             });
@@ -141,18 +145,34 @@
             if(!response.ok) {
               alert('There is an error occurred');
             }
-            console.log(responsePack);
+            else {
+              this.setPatientDetails();
+              this.setSignedUp(true);
+              this.setUser(responsePack.localId);
+            }
           },
         setStep(oldValue,newValue) {
-          if(this.step === 'appointment') {
+          console.log(oldValue + 'clicked');
+          if(this.step === 'appointment' && !this.getSignedUp) {
             this.setValidationClicked(true);
-            if(newValue === 'finalize')
-                  this.signUp();
+            if(newValue === 'finalize') {
+              this.signUp();
+            }
           }
-          if(this.step === 'continue')
-          this.setValidationClicked(false);
-          if(this.step !== 'appointment')
-          this.setFormFields({});
+          if(this.step === 'appointment' && this.getSignedUp) {
+           
+              this.validateForm(true);
+              this.stepValue = newValue;
+              this.oldStep = oldValue;
+            }
+          
+          if(this.step === 'continue') {
+            this.setValidationClicked(false);
+            this.selectedDayHourDoctor();
+          }
+          if(this.step === 'appointment' && newValue === 'continue' && !this.getSignedUp) {
+            this.resetValidation();
+          }
   
           this.stepValue = newValue;
           this.oldStep = oldValue;
@@ -174,10 +194,45 @@
           this.setValidationClicked(false);
           this.setFormErrors({ name:'name is required',
                   family: 'family is required',
-                  mobile: 'mobile is required',
+                  password: 'password is required and should be at least 8 character',
                   dateOfBirth: 'date of birth is required'});
-        }
-        
+        },
+        selectedDayHourDoctor() {
+          localStorage.setItem('day', this.day);
+          localStorage.setItem('hour', this.hour);
+          localStorage.setItem('name', this.doctorSelected.name);
+        },
+        setPatientDetails() {
+          const patientDetails = {
+            name: this.formFields.name,
+            family: this.formFields.family,
+            email: this.formFields.email
+          }
+          localStorage.setItem('details',JSON.stringify(patientDetails));
+        },
+       async  setUser(userId) {
+              const user = {
+                id: userId,
+                hour: this.hour,
+                day: this.day,
+                doctorName: this.doctorSelected.name,
+                name:this.formFields.name,
+                family: this.formFields.family,
+                email:this.formFields.email
+              }
+              const response = await fetch(`https://calendar-9af77-default-rtdb.firebaseio.com/reservations/${userId}.json`, {
+                  method: 'POST',
+                  body: JSON.stringify(user)
+              });
+
+              // const responsePack = await response.json();
+
+              if(!response.ok) {
+                alert ("registration Failed");
+                return;
+              }
+              console.log('Successfully registered');
+        }  
     }
   
   }

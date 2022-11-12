@@ -1,7 +1,7 @@
 <template>
     <div class="steps">
-        <div class="step" :class="oldActive === 'continue'? 'completed' : ''"><CheckSvg :class="oldActive === 'continue'? 'ticked' : 'hide'"></CheckSvg><span :class=" Active === 'continue'? 'completed-text' : ''">1.</span><span :class="Active === 'continue'? 'completed-text' : ''">Appointments</span></div>
-        <div class="step" :class="oldActive === 'appointment'? 'completed' : '' "><CheckSvg :class="oldActive === 'appointment'? 'ticked' : 'hide'"></CheckSvg><span  :class=" Active === 'appointment'? 'completed-text' : ''" >2.</span><span :class=" Active === 'appointment'? 'completed-text' : ''" >Personal Details</span></div>
+        <div class="step" :class="oldActive !== ''? 'completed' : ''"><CheckSvg :class="oldActive !== ''? 'ticked' : 'hide'"></CheckSvg><span :class=" Active  === 'continue' ? 'completed-text' : ''">1.</span><span :class="Active === 'continue' || Active === ''? 'completed-text' : ''">Appointments</span></div>
+        <div class="step" :class="oldActive === ('appointment' || 'continue') ? 'completed' : '' "><CheckSvg :class="oldActive === 'appointment'? 'ticked' : 'hide'"></CheckSvg><span  :class=" Active === 'appointment'? 'completed-text' : ''" >2.</span><span :class=" Active === 'appointment'? 'completed-text' : ''" >Personal Details</span></div>
         <div class="step" :class="oldActive === 'finalize'? 'completed' : '' "><CheckSvg :class="oldActive === 'finalize'? 'ticked' : 'hide'"></CheckSvg><span :class=" Active === 'finalize'? 'completed-text' : ''">3.</span><span :class=" Active === 'finalize'? 'completed-text' : ''">Confirmation</span></div>
     </div>
 </template>

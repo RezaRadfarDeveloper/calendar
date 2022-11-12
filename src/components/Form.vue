@@ -46,9 +46,9 @@
                 <input type="text" v-model="email">
             </div>
             <div class="name-row-first">
-                        <label class="label-general" for="">Mobile*</label>
-                        <input type="text" @keyup="updateValidation" v-model="mobile" :class="{'is-invalid': formErrors.mobile &&  getValidationClicked}">
-                        <div v-if="formErrors.mobile !== '' && getValidationClicked" :class="{'is-invalid-text': formErrors.mobile &&  getValidationClicked}"> {{formErrors.mobile}}</div>
+                        <label class="label-general" for="">Password</label>
+                        <input type="password" @keyup="updateValidation" v-model="password" :class="{'is-invalid': formErrors.password &&  getValidationClicked}">
+                        <div v-if="formErrors.password !== '' && getValidationClicked" :class="{'is-invalid-text': formErrors.password &&  getValidationClicked}"> {{formErrors.password}}</div>
             </div>
         </div>
     </div>
@@ -65,13 +65,13 @@ export default {
             patientName: '',
             patientFamily: '',
             dateOfBirth: '',
-            mobile: '',
+            password: '',
             email:'',
             title: '',
             errors: {
                 name: 'name is required',
                 family: 'family is required',
-                mobile: 'mobile is required',
+                password: 'password is required',
                 dateOfBirth: 'date of birth is required'
             }
         }
@@ -86,7 +86,7 @@ export default {
                 name: this.patientName,
                 family: this.patientFamily,
                 dateOfBirth:this.dateOfBirth ,
-                mobile: this.mobile,
+                password: this.password,
                 title: this.title,
                 email: this.email
                });
@@ -94,7 +94,7 @@ export default {
                this.setFormErrors({
                 name:this.patientName.trim() === '' ?'name is required': '',
                 family: this.patientFamily.trim()=== '' ?'family is required': '',
-                mobile: this.mobile.length !== 8  ?'mobile is required': '',
+                password: this.password.length < 8  ?'password is required and should be at least 8 character': '',
                 dateOfBirth: this.dateOfBirth.trim()=== '' ?'date of birth is required': '',
                })
         },
@@ -105,7 +105,7 @@ export default {
         hasError() {
             return this.patientFamily.trim() === '' ||
             this.patientName.trim() === '' ||
-            (this.mobile.length !== 8) || 
+            (this.password.length < 8) || 
             this.dateOfBirth === ''
         },
         ...mapGetters(['formIsValidated','formErrors', 'formFields','getValidationClicked', 'formErrors'])

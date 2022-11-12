@@ -36,14 +36,14 @@ const store = createStore({
                 name: '',
                 family: '',
                 dateOfBirth: '',
-                mobile: '',
+                password: '',
                 title: '',
                 email: ''
             },
             formErrors: {
                 name:'name is required',
                 family: 'family is required',
-                mobile: 'mobile is required',
+                password: 'password is required and should be at least 8 characters',
                 dateOfBirth: 'date of birth is required'
             },
             validationClicked: false,
@@ -55,7 +55,8 @@ const store = createStore({
             daysInCurrentMonth: 0,
             daysInNextMonth: 0,
             monthCounter: 1,
-            selectedDays: []
+            selectedDays: [],
+            signedUp: false
         }
     },
     mutations: {
@@ -113,6 +114,9 @@ const store = createStore({
         },
         setSelectedDays(state, payload) {
             return state.selectedDay = payload;
+        },
+        setSignedUp(state, payload) {
+            return state.signedUp = payload;
         }
     },
     actions: {
@@ -170,6 +174,9 @@ const store = createStore({
             },
             setSelectedDays(context, payload) {
                 context.commit('setSelectedDays', payload);
+            },
+            setSignedUp(context, payload) {
+                context.commit('setSignedUp', payload);
             }
      },
     getters: {
@@ -229,6 +236,9 @@ const store = createStore({
         },
         getSelectedDays(state) {
             return state.selectedDays;
+        },
+        getSignedUp(state) {
+            return state.signedUp;
         }
        
     }
