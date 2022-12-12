@@ -85,7 +85,7 @@
         return this.daySelected && this.hourSelected && this.doctorSelected ;
       },
   
-      ...mapGetters(['doctorSelected', 'formIsValidated', 'formFields', 'getSignedUp']),
+      ...mapGetters(['doctorSelected', 'formIsValidated', 'formFields', 'getSignedUp', 'getUserId', 'getToken']),
   
       step() {
         return this.stepValue;
@@ -129,8 +129,34 @@
           setFormFields: 'setFormFields',
           validateForm: 'validateForm',
           setFormErrors: 'setFormErrors',
-          setSignedUp: 'setSignedUp'
+          setSignedUp: 'setSignedUp',
+          setSelectedDay:'setSelectedDay',
+          setSelectedHour: 'setSelectedHour',
+          setUserId: 'setUserId',
+          setToken: 'setToken'
           }),
+    async signIn() {
+          const response =  await fetch('https://identitytoolkit.googleapis.com/v1/accounts:signInWithPassword?key=AIzaSyB5wf4Jymzdk1NWwRxAmdJc4l5_-_bP_GE', 
+            {
+              method:'POST',
+              body: JSON.stringify({
+                email: this.formFields.email,
+                password:this.formFields.password,
+                returnSecureToken: true
+              })
+            });
+                const responsePack = await response.json();
+            if(!response.ok) {
+              alert('There is an error occurred in Login');
+            }
+            else {
+              //TBC
+              console.log('the login ID is:' + responsePack.localId + '--' + responsePack.email +  '--' + responsePack.expiresIn);
+              this.setPatientDetails();
+              this.setSignedUp(true);
+            }
+          },
+
         async signUp() {
           const response =  await fetch('https://identitytoolkit.googleapis.com/v1/accounts:signUp?key=AIzaSyB5wf4Jymzdk1NWwRxAmdJc4l5_-_bP_GE', 
             {
@@ -143,13 +169,24 @@
             });
                 const responsePack = await response.json();
             if(!response.ok) {
-              alert('There is an error occurred');
+              alert('There is an error occurred in signing up');
             }
             else {
               this.setPatientDetails();
               this.setSignedUp(true);
+              localStorage.setItem('loggedIn', true);
               this.setUser(responsePack.localId);
+              this.setToken(responsePack.idToken);
             }
+          },
+          //TBC the method to get user data based on the id
+          async getData() {
+            const userId = this.getUserId;
+            const response = await fetch(`https://calendar-9af77-default-rtdb.firebaseio.com/reservations/${userId}.json?auth=` + this.getToken);
+
+            if(!response.ok)
+            alert('error in fetching data'); 
+            console.log(response.json());
           },
         setStep(oldValue,newValue) {
           console.log(oldValue + 'clicked');
@@ -231,9 +268,28 @@
                 alert ("registration Failed");
                 return;
               }
+              this.setUserId(userId);
               console.log('Successfully registered');
-        }  
-    }
+        },
+        //to-be-completed
+        setStore() {
+         this.setSelectedDay(JSON.parse((localStorage.getItem('day'))));
+         this.setSelectedHour(JSON.parse((localStorage.getItem('hour'))));
+         console.log(JSON.parse(localStorage.getItem('loggedIn')));
+         this.setSignedUp(JSON.parse(localStorage.getItem('loggedIn')));
+          console.log(JSON.parse(localStorage.getItem('hour')));
+          console.log((localStorage.getItem('name')));
+        }
+    },
+
+    beforeMount(){
+    // this.setStore();
+    this.getData();
+ },
+ //TBC testing for getting user data by id from firebase ...
+//  mounted() {
+//   this.getData();
+//  }
   
   }
   </script>

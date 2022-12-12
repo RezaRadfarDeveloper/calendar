@@ -56,7 +56,9 @@ const store = createStore({
             daysInNextMonth: 0,
             monthCounter: 1,
             selectedDays: [],
-            signedUp: false
+            signedUp: false,
+            userId: 0,
+            token: null
         }
     },
     mutations: {
@@ -113,10 +115,16 @@ const store = createStore({
             return state.monthCounter= payload;
         },
         setSelectedDays(state, payload) {
-            return state.selectedDay = payload;
+            return state.selectedDays = payload;
         },
         setSignedUp(state, payload) {
             return state.signedUp = payload;
+        },
+        setUserId(state,payload) {
+            return state.userId = payload;
+        },
+        setToken(state,payload) {
+            return state.token = payload;
         }
     },
     actions: {
@@ -177,6 +185,12 @@ const store = createStore({
             },
             setSignedUp(context, payload) {
                 context.commit('setSignedUp', payload);
+            },
+            setUserId(context,payload) {
+                context.commit('setUserId', payload);
+            },
+            setToken(context, payload) {
+                context.commit('setToken', payload);
             }
      },
     getters: {
@@ -239,6 +253,12 @@ const store = createStore({
         },
         getSignedUp(state) {
             return state.signedUp;
+        },
+        getUserId(state) {
+            return state.userId;
+        },
+        getToken(state) {
+            return state.token;
         }
        
     }

@@ -46,9 +46,9 @@
                 <input type="text" v-model="email">
             </div>
             <div class="name-row-first">
-                        <label class="label-general" for="">Password</label>
-                        <input type="password" @keyup="updateValidation" v-model="password" :class="{'is-invalid': formErrors.password &&  getValidationClicked}">
-                        <div v-if="formErrors.password !== '' && getValidationClicked" :class="{'is-invalid-text': formErrors.password &&  getValidationClicked}"> {{formErrors.password}}</div>
+                <label class="label-general" for="">Password</label>
+                <input type="password" @keyup="updateValidation" v-model="password" :class="{'is-invalid': formErrors.password &&  getValidationClicked}">
+                <div v-if="formErrors.password !== '' && getValidationClicked" :class="{'is-invalid-text': formErrors.password &&  getValidationClicked}"> {{formErrors.password}}</div>
             </div>
         </div>
     </div>
