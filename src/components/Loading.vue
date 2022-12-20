@@ -5,14 +5,27 @@
    <div class="loading">
       <button class="btn btn-success" type="button" disabled>
         <span class="spinner-border spinner-border-sm" role="status" aria-hidden="true"></span>
-        Loading...
+        {{loadingText}}...
       </button>
    </div>
 
 </template>
 
 <script>
+export default {
 
+  data() {
+    return {
+      text: 'hello'
+    }
+  },
+  props:['content'],
+  computed: {
+    loadingText() {
+      return   this.content;
+    }
+  }
+}
 </script>
 
 <style>

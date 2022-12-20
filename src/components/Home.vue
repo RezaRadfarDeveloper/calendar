@@ -180,7 +180,7 @@
             }
           },
           //TBC the method to get user data based on the id
-          async getData() {
+          async getReservation() {
             const userId = this.getUserId;
             const response = await fetch(`https://calendar-9af77-default-rtdb.firebaseio.com/reservations/${userId}.json?auth=` + this.getToken);
 
@@ -283,14 +283,9 @@
     },
 
     beforeMount(){
-    // this.setStore();
-    this.getData();
- },
- //TBC testing for getting user data by id from firebase ...
-//  mounted() {
-//   this.getData();
-//  }
-  
+    this.setStore();
+    // this.getReservation();
+ }, 
   }
   </script>
   <style>

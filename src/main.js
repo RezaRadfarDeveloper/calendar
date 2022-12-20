@@ -2,7 +2,7 @@ import { createApp } from 'vue';
 import { createRouter, createWebHistory } from 'vue-router';
 import { createStore } from 'vuex';
 import App from './App.vue';
-import Find from './components/Find.vue';
+import Profile from './components/Profile.vue';
 import Hour from './components/Hour.vue';
 import Home from './components/Home.vue';
 import { doctors } from './data.js';
@@ -58,7 +58,8 @@ const store = createStore({
             selectedDays: [],
             signedUp: false,
             userId: 0,
-            token: null
+            token: null,
+            showModal: false
         }
     },
     mutations: {
@@ -125,6 +126,9 @@ const store = createStore({
         },
         setToken(state,payload) {
             return state.token = payload;
+        },
+        setModal(state, payload) {
+            return state.showModal = payload;
         }
     },
     actions: {
@@ -191,6 +195,9 @@ const store = createStore({
             },
             setToken(context, payload) {
                 context.commit('setToken', payload);
+            },
+            setModal(context, payload) {
+                context.commit('setModal', payload);
             }
      },
     getters: {
@@ -259,6 +266,9 @@ const store = createStore({
         },
         getToken(state) {
             return state.token;
+        },
+        getModal(state) {
+            return state.showModal;
         }
        
     }
@@ -267,9 +277,9 @@ const store = createStore({
 const app =createApp(App);
 const router = createRouter({
     routes: [
-        { path: '/find', component: Find},
-        { path: '/', component: Home},
-        {path: '/hour', component: Hour}
+        { path: '/profile', name: 'profile', component: Profile},
+        { path: '/', name: 'home', component: Home},
+        {path: '/hour', name: 'hour', component: Hour}
     ],
     history: createWebHistory()
 });

@@ -1,7 +1,7 @@
 <template>
     <div>
         <div v-if="loading">
-          <Loading></Loading>
+          <Loading :content="'Loading'"></Loading>
         </div>
         <div v-else>
         <Doctor  v-for="doctor in doctorsList" @click="selectByDoctor(doctor.id)" :key="doctor.id" :doctor="doctor"></Doctor>

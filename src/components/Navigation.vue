@@ -1,12 +1,14 @@
 <template>
         <div class="nav-items">
             <router-link class="nav-link"  to="/">Home</router-link>
-            <router-link class="nav-link"  to="/find">Profile</router-link>
-            <div class="btn btn-danger" @click="logout">Log out</div>
+            <router-link v-if="getSignedUp" class="nav-link"  to="/profile">Profile</router-link>
+            <div v-if="getSignedUp" class="btn btn-danger" @click="logout">Log out</div>
+            <div v-else class="btn btn-primary" @click="logIn">Log in</div>
         </div>
 </template>
 
 <script>
+import { mapGetters, mapActions } from 'vuex';
 export default {
 
     data() {
@@ -16,8 +18,40 @@ export default {
     },
     methods: {
         logout() {
-            // alert('logged out');
-        }
+            this.setModal(true);
+            setTimeout(() => {
+                this.setToken(null);
+            this.setUserId(0);
+            this.setSelectedDay(0);
+            this.setSelectedHour(0);
+            this.setFormFields({});
+            this.setSignedUp(false);
+            localStorage.setItem('day', 0);
+            localStorage.setItem('hour', 0);
+            localStorage.setItem('name', '');
+            localStorage.setItem('details',JSON.stringify({}));
+            localStorage.setItem('loggedIn',JSON.stringify(false));
+            this.setModal(false);
+            },2000);
+
+
+            
+
+            // 1_ If route is not home redirect e.g. this.$router.push({name:"profile"})
+            // 2_ Open modal loader and then logout the user and clean data in store and storage
+            
+        },
+        ...mapActions(['setModal',
+         'setSignedUp', 
+         'setToken',
+         'setSelectedDay',
+         'setSelectedHour',
+         'setFormFields',
+         'setUserId'])
+        
+    },
+    computed: {
+        ...mapGetters(['getSignedUp'])
     }
 }
 

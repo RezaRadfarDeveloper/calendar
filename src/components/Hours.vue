@@ -1,7 +1,7 @@
 <template>
 <div class="hours">
     <div v-if="loading">
-     <Loading></Loading>
+     <Loading :content="'Loading'"></Loading>
     </div>
     <Hour v-else v-for="i in 24"  :key="i" :disabledHour="!hourDisabled(i)" :selectedHour="selectedHour" :hour="i" @activate="activate"></Hour>
 </div>

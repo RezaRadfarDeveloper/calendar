@@ -1,5 +1,6 @@
 <template>
-  <div class="d-flex flex-column">
+  <div class="main d-flex flex-column">
+    <Modal></Modal>
     <Navigation></Navigation>
   <router-view></router-view>
 </div>
@@ -8,7 +9,8 @@
 
 <script>
   import Navigation from './components/Navigation.vue';
-import Footer from './components/Footer.vue';
+  import Footer from './components/Footer.vue';
+  import Modal from './components/Modal.vue'
 
 
 // import {doctors} from './data.js';
@@ -23,12 +25,16 @@ export default {
   },
   components: {
     Footer,
-    Navigation
+    Navigation,
+    Modal
 }
 
 }
 </script>
 <style>
 
+.main {
+  position:relative;
+}
 </style>
 
