@@ -3,7 +3,7 @@
             <router-link class="nav-link"  to="/">Home</router-link>
             <router-link v-if="getSignedUp" class="nav-link"  to="/profile">Profile</router-link>
             <div v-if="getSignedUp" class="btn btn-danger" @click="logout">Log out</div>
-            <div v-else class="btn btn-primary" @click="logIn">Log in</div>
+            <router-link  to="/login" v-else class="btn btn-primary">Log in</router-link>
         </div>
 </template>
 

@@ -60,7 +60,6 @@ export default {
 
         hourDisabled(hour) {
             return this.selectHours().indexOf(hour) !== -1;
-
         }
     },
     computed: {

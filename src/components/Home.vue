@@ -78,7 +78,7 @@
       Form,
       Back,
       SignedUp
-  },
+   },
   
   computed: {
       showContinue()  {
@@ -285,7 +285,7 @@
     beforeMount(){
     this.setStore();
     // this.getReservation();
- }, 
+    }, 
   }
   </script>
   <style>
