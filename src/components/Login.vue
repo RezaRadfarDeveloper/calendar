@@ -15,7 +15,7 @@
                 </div>
             </div>
         </div>
-        <Button :buttonText="'Login'"></Button>
+        <Button :buttonText="'Login'" @click="signIn"></Button>
     </div>
 </template>
     
@@ -35,12 +35,58 @@ import Button from './Button.vue';
             }
         },
         methods: {
+            async signIn() {
+          const response =  await fetch('https://identitytoolkit.googleapis.com/v1/accounts:signInWithPassword?key=AIzaSyB5wf4Jymzdk1NWwRxAmdJc4l5_-_bP_GE', 
+            {
+              method:'POST',
+              body: JSON.stringify({
+                email: this.email,
+                password:this.password,
+                returnSecureToken: true
+              })
+            });
+                const responsePack = await response.json();
             
-            ...mapActions(['validateForm', 'setFormFields','setFormErrors'])
-    
+                if(!response.ok) {
+                alert('There is an error occurred in Login');
+                }
+            else {
+              this.setSignedUp(true);
+              this.setToken(responsePack.idToken);
+              this.getReservation(responsePack.localId);
+              localStorage.setItem('loggedIn',JSON.stringify(true));
+              this.selectedDayHourDoctor();
+            }
+          },
+          async getReservation(userId) {
+            
+            const response = await fetch(`https://calendar-9af77-default-rtdb.firebaseio.com/reservations/${userId}.json?auth=` + this.getToken);
+            const responsePack = await response.json();
+            
+            console.log(responsePack);
+            if(!response.ok)
+            alert('error in fetching data'); 
+            else { 
+            const patientDetails = 
+            {
+            name: responsePack.name,
+            family: responsePack.family,
+            email: responsePack.email
+            }
+            
+              this.setSelectedDay(responsePack.day);
+              this.setSelectedHour(responsePack.hour);
+              this.selectedDoctorName(responsePack.doctorName);
+              this.selectedDayHourDoctor();
+              this.setPatientDetail(patientDetails);
+            }
+
+          }, 
+            ...mapActions(['validateForm', 'setFormFields','setFormErrors', 'setSignedUp', 'setPatientDetail', 'setToken', 'selectedDayHourDoctor','setSelectedDay', 'setSelectedHour','selectedDoctorName'])
+
         },
         computed: {
-            ...mapGetters(['formIsValidated','formErrors', 'formFields','getValidationClicked', 'formErrors'])
+            ...mapGetters(['formIsValidated','formErrors', 'formFields','getValidationClicked', 'formErrors', 'getUserId', 'getToken'])
         },
     
         watch: {
@@ -53,7 +99,7 @@ import Button from './Button.vue';
         }
     }
     </script>
-    <style>
+    <style scoped>
     
     .main-form {
         width: 950px;

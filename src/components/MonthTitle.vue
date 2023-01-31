@@ -34,6 +34,7 @@ export default {
          this.selectedYear =this.getCurrentYear();
          this.setDaysInCurrentMonth(this.daysInThisMonth);
          this.setDaysInNextMonth(this.daysInNextMonth);
+         this.setSelectedYear(this.selectedYear);
     },
 
     methods: {
@@ -72,7 +73,8 @@ export default {
                } 
                  else
                this.selectedMonth = this.months[currentMonthNum + 1];
-        },
+               this.setSelectedYear(this.selectedYear);
+        },  
 
         getPreviousMonth() {
 
@@ -94,6 +96,7 @@ export default {
                }
                else
                  this.selectedMonth = this.months[currentMonthNum - 1];
+                 this.setSelectedYear(this.selectedYear);
         },
 
         getCurrentYear() {
@@ -124,10 +127,10 @@ export default {
         },
 
         ...mapActions(['setCurrentMonth', 'setNextMonth', 'setSelectedMonth', 'setDaysInCurrentMonth', 
-        'setDaysInNextMonth', 'setMonthCounter', 'setSelectedDays'])
+        'setDaysInNextMonth', 'setMonthCounter', 'setSelectedDays', 'setSelectedYear'])
     },
     computed: {
-        ...mapGetters(['getMonthCounter', 'getSelectedMonth', 'getDoctorsList']),
+        ...mapGetters(['getMonthCounter', 'getSelectedMonth', 'getDoctorsList', 'getSelectedYear']),
 
         daysInThisMonth() {
           var now = new Date();

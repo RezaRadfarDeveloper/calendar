@@ -13,6 +13,7 @@
         <div class="doctors">
           <Doctors :daySelected="day"  :hourSelected="hour"></Doctors>
         </div>
+        <HoursTable></HoursTable>
     </div>
     <div class="mb-5">
         <Button :class=" showContinue && step === 'continue' ? 'd-block' : 'd-none'" :buttonText="step" @click="setStep('continue','appointment')"></Button>
@@ -41,9 +42,10 @@
   import Steps from './Steps.vue';
   import Button from './Button.vue';
   import Form from './Form.vue';
+  import HoursTable from './HoursTable.vue';
   import Back from './Back.vue';
   import SignedUp from './SignedUp.vue';
-  
+  import { hourTable } from '../data';
   // import {doctors} from './data.js';
   import { mapActions, mapGetters } from 'vuex';
   
@@ -61,6 +63,7 @@
         finalize:false,
         stepValue: 'continue',
         oldStep: '',
+        hourSet: hourTable,
         registeredClicked:false,
         details: null,
         twoStepBefore: '',
@@ -77,7 +80,8 @@
       Button,
       Form,
       Back,
-      SignedUp
+      SignedUp,
+      HoursTable
    },
   
   computed: {
@@ -85,7 +89,10 @@
         return this.daySelected && this.hourSelected && this.doctorSelected ;
       },
   
-      ...mapGetters(['doctorSelected', 'formIsValidated', 'formFields', 'getSignedUp', 'getUserId', 'getToken']),
+      ...mapGetters(['doctorSelected', 'formIsValidated', 'formFields',
+       'getSignedUp', 'getUserId', 'getToken', 'getPatientDetail', 'getSelectedDay',
+       'getSelectedHour','getSelectedYear','getSelectedMonth'
+      ]),
   
       step() {
         return this.stepValue;
@@ -133,9 +140,13 @@
           setSelectedDay:'setSelectedDay',
           setSelectedHour: 'setSelectedHour',
           setUserId: 'setUserId',
-          setToken: 'setToken'
+          setToken: 'setToken',
+          setPatientDetail: 'setPatientDetail',
+          selectedDayHourDoctor: 'selectedDayHourDoctor'
+          // fetchReservation: 'fetchReservation'
           }),
     async signIn() {
+     
           const response =  await fetch('https://identitytoolkit.googleapis.com/v1/accounts:signInWithPassword?key=AIzaSyB5wf4Jymzdk1NWwRxAmdJc4l5_-_bP_GE', 
             {
               method:'POST',
@@ -152,7 +163,7 @@
             else {
               //TBC
               console.log('the login ID is:' + responsePack.localId + '--' + responsePack.email +  '--' + responsePack.expiresIn);
-              this.setPatientDetails();
+              // this.setPatientDetail();
               this.setSignedUp(true);
             }
           },
@@ -167,16 +178,24 @@
                 returnSecureToken: true
               })
             });
+            // console.log(response);
                 const responsePack = await response.json();
             if(!response.ok) {
               alert('There is an error occurred in signing up');
             }
             else {
-              this.setPatientDetails();
+              const patientDetails = {
+                name: this.formFields.name,
+                family: this.formFields.family,
+                email: this.formFields.email
+              }
+
+              this.setPatientDetail(patientDetails);
               this.setSignedUp(true);
               localStorage.setItem('loggedIn', true);
               this.setUser(responsePack.localId);
               this.setToken(responsePack.idToken);
+              // this.fetchReservation({id:responsePack.localId, token: responsePack.idToken});
             }
           },
           //TBC the method to get user data based on the id
@@ -234,36 +253,38 @@
                   password: 'password is required and should be at least 8 character',
                   dateOfBirth: 'date of birth is required'});
         },
-        selectedDayHourDoctor() {
-          localStorage.setItem('day', this.day);
-          localStorage.setItem('hour', this.hour);
-          localStorage.setItem('name', this.doctorSelected.name);
-        },
-        setPatientDetails() {
-          const patientDetails = {
-            name: this.formFields.name,
-            family: this.formFields.family,
-            email: this.formFields.email
-          }
-          localStorage.setItem('details',JSON.stringify(patientDetails));
-        },
+        // selectedDayHourDoctor() {
+        //   localStorage.setItem('day', this.day);
+        //   localStorage.setItem('hour', this.hour);
+        //   localStorage.setItem('name', this.doctorSelected.name);
+        // },
+        // setPatientDetails() {
+        //   const patientDetails = {
+        //     name: this.formFields.name,
+        //     family: this.formFields.family,
+        //     email: this.formFields.email
+        //   }
+        //   localStorage.setItem('details',JSON.stringify(patientDetails));
+        // },
        async  setUser(userId) {
               const user = {
-                id: userId,
                 hour: this.hour,
                 day: this.day,
                 doctorName: this.doctorSelected.name,
                 name:this.formFields.name,
                 family: this.formFields.family,
-                email:this.formFields.email
+                email:this.formFields.email,
+                month: this.getSelectedMonth,
+                year: this.getSelectedYear
               }
               const response = await fetch(`https://calendar-9af77-default-rtdb.firebaseio.com/reservations/${userId}.json`, {
-                  method: 'POST',
-                  body: JSON.stringify(user)
+                  method: 'PUT',
+                  body: JSON.stringify({...user, id:userId})
               });
 
-              // const responsePack = await response.json();
-
+              const responsePack = await response.json();
+              // console.log(response);
+              console.log(responsePack);
               if(!response.ok) {
                 alert ("registration Failed");
                 return;

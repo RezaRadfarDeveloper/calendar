@@ -33,6 +33,8 @@ const store = createStore({
             selectedDoctor: null,
             formIsValid: false,
             doctorsList: doctors,
+            selectedDoctorName: '',
+            selectedYear: 0,
             formFields: {
                 name: '',
                 family: '',
@@ -60,7 +62,8 @@ const store = createStore({
             signedUp: false,
             userId: 0,
             token: null,
-            showModal: false
+            showModal: false,
+            patientDetail: null
         }
     },
     mutations: {
@@ -73,9 +76,14 @@ const store = createStore({
         resetHour(state, payload) {
             state.resetHour = payload;
         },
-
+        setSelectedYear(state, payload) {
+            state.selectedYear = payload;
+        },
         setDoctor(state, payload) {
             state.selectedDoctor = payload;
+        },
+        selectedDoctorName(state, payload) {
+            state.selectedDoctorName = payload;
         },
         validateForm(state, payload) {
             state.formIsValid = payload;
@@ -130,6 +138,9 @@ const store = createStore({
         },
         setModal(state, payload) {
             return state.showModal = payload;
+        },
+        setPatientDetail(state, payload) {
+            state.patientDetail = payload;
         }
     },
     actions: {
@@ -139,8 +150,14 @@ const store = createStore({
             increase(context) {
                 context.commit('increase');
             },
+            selectedDoctorName(context, payload) {
+                context.commit('selectedDoctorName', payload);
+            },
             resetHour(context, payload) {
                 context.commit('resetHour', payload);
+            },
+            setSelectedYear(context, payload) {
+                context.commit('setSelectedYear', payload);
             },
             setDoctor(context, payload) {
                 context.commit('setDoctor', payload);
@@ -199,7 +216,25 @@ const store = createStore({
             },
             setModal(context, payload) {
                 context.commit('setModal', payload);
-            }
+            },
+            setPatientDetail(context, payload) {
+                context.commit('setPatientDetail', payload);
+                const patientDetails = {
+                    name: payload.name,
+                    family: payload.family,
+                    email: payload.email
+                }
+                localStorage.setItem('details',JSON.stringify(patientDetails));
+            },
+            selectedDayHourDoctor() {
+                console.log(store.state.selectedDay);
+                localStorage.setItem('day', store.state.selectedDay);
+                localStorage.setItem('hour', store.state.selectedHour);
+                localStorage.setItem('name', store.state.selectedDoctorName);
+                localStorage.setItem('month', 
+                store.state.selectedMonth ==='Current' ? store.state.currentMonth : store.state.nextMonth );
+                localStorage.setItem('year', store.state.selectedYear);
+              }
      },
     getters: {
         finalCounter(state) {
@@ -236,13 +271,17 @@ const store = createStore({
         getSelectedHour(state) {
             return state.selectedHour;
         },
-
+        getSelectedYear(state) {
+            return state.selectedYear;
+        },
         getCurrentMonth(state) {
             return state.currentMonth;
         },
-
         getNextMonth(state) {
             return state.nextMonth;
+        },
+        getSelectedDoctorName(state) {
+            return state.selectedDoctorName;
         },
         getSelectedMonth(state) {
             return state.selectedMonth;
@@ -270,22 +309,49 @@ const store = createStore({
         },
         getModal(state) {
             return state.showModal;
+        },
+        getPatientDetail(state) {
+            return state.patientDetail;
         }
-       
     }
 })
 
 const app =createApp(App);
 const router = createRouter({
     routes: [
-        { path: '/profile', name: 'profile', component: Profile},
-        { path: '/', name: 'home', component: Home},
-        {path: '/hour', name: 'hour', component: Hour},
-        {path: '/login', name: 'login', component: Login}
+        { path: '/profile', 
+        name: 'profile', 
+        component: Profile,
+        // beforeEnter: () => {
+        //     // reject the navigation
+        //     const auth = store.state.signedUp;
+        //     if(!auth) {
+        //         console.log('not logged in');
+        //         return '';
+        //     }
+        //     else {
+        //         console.log('logged in');
+        //         return true;
+        //     }
+        //   }
+        },
+        { path: '/', 
+        name: 'home', 
+        component: Home
+    },
+        {path: '/hour', 
+        name: 'hour', 
+        component: Hour
+    },
+        {path: '/login', 
+        name: 'login', 
+        component: Login
+    }
 
     ],
     history: createWebHistory()
 });
+
 app.component('font-awesome-icon', FontAwesomeIcon);
 app.use(store);
 app.use(router);

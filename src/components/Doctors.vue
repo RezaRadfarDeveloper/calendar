@@ -43,6 +43,7 @@ export default {
             this.$store.dispatch('setDoctor', doctor);
             // we duplicate doctor in an array since we need array of object with more than one element
             this.setDoctorsList([doctor, doctor]);
+            this.selectedDoctorName(doctor.name);
         },
         //  hours cannot be selected without day selected
         selectDoctors() {
@@ -71,7 +72,7 @@ export default {
                 return list;
         },
 
-        ...mapActions(['setDoctorsList'])
+        ...mapActions(['setDoctorsList', 'selectedDoctorName'])
     },
     computed: {
         ...mapGetters(['getSelectedMonth'])

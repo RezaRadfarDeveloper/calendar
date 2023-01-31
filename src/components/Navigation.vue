@@ -24,14 +24,17 @@ export default {
             this.setUserId(0);
             this.setSelectedDay(0);
             this.setSelectedHour(0);
+            this.setDoctor(null);
             this.setFormFields({});
             this.setSignedUp(false);
+            this.setPatientDetail({});
             localStorage.setItem('day', 0);
             localStorage.setItem('hour', 0);
             localStorage.setItem('name', '');
             localStorage.setItem('details',JSON.stringify({}));
             localStorage.setItem('loggedIn',JSON.stringify(false));
             this.setModal(false);
+            this.$router.push({name:"home"})
             },2000);
 
 
@@ -47,7 +50,9 @@ export default {
          'setSelectedDay',
          'setSelectedHour',
          'setFormFields',
-         'setUserId'])
+         'setUserId',
+        'setDoctor',
+        'setPatientDetail'])
         
     },
     computed: {
@@ -56,7 +61,7 @@ export default {
 }
 
 </script>
-<style>
+<style scoped>
  .nav-items {
     display: flex;
     justify-content: flex-end;
@@ -75,6 +80,11 @@ export default {
     padding-top: 25px !important;
     text-decoration: none;
     text-align: center;
+}
+
+.btn:focus {
+outline: none !important;
+box-shadow: none !important;
 }
     
 </style>

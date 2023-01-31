@@ -42,7 +42,7 @@
         </h4>
         <div class="d-flex justify-content-between">
             <div class="name-row-first">
-                <label class="label-general" for="">Email (Optional)</label>
+                <label class="label-general" for="">Email</label>
                 <input type="text" v-model="email">
             </div>
             <div class="name-row-first">
