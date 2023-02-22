@@ -3,16 +3,15 @@
         <div class="content">
             <h1 class="heading-primary">Your session and Info</h1>
             <div class="session-info">
-                <div class="row"> <h3>day:{{ getSelectedDay }}</h3> 
-                    <h3>hour: {{ getSelectedHour }}</h3> 
-                    <h3>Month: {{ month }}</h3>  
-                    <h3>Year: {{ getSelectedYear }}</h3>
-                    <h3>Doctor: {{ getSelectedDoctorName }}</h3>
-                </div>
-                
-                <div class="row"><h3>Thank you {{ patientDetails.name }} for being with us</h3></div>   
+                    <div class="row"> <h3>day:{{ getSelectedDay }}</h3> 
+                        <h3>hour: {{ getSelectedHour }}</h3> 
+                        <h3>Month: {{ month }}</h3>  
+                        <h3>Year: {{ getSelectedYear }}</h3>
+                        <h3>Doctor: {{ getSelectedDoctorName }}</h3>
+                    </div>
+                    <div class="row"><h3>Thank you {{ patientDetails.name }} for being with us</h3></div>   
             </div>
-        </div>
+        </div> 
     </div>
 </template>
 

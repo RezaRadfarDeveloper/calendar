@@ -52,6 +52,7 @@ import Button from './Button.vue';
                 }
             else {
               this.setSignedUp(true);
+              this.setLoggedIn(true);
               this.setToken(responsePack.idToken);
               this.getReservation(responsePack.localId);
               localStorage.setItem('loggedIn',JSON.stringify(true));
@@ -79,10 +80,11 @@ import Button from './Button.vue';
               this.selectedDoctorName(responsePack.doctorName);
               this.selectedDayHourDoctor();
               this.setPatientDetail(patientDetails);
+              this.setUserId(responsePack.id);
             }
 
           }, 
-            ...mapActions(['validateForm', 'setFormFields','setFormErrors', 'setSignedUp', 'setPatientDetail', 'setToken', 'selectedDayHourDoctor','setSelectedDay', 'setSelectedHour','selectedDoctorName'])
+            ...mapActions(['validateForm', 'setFormFields','setFormErrors', 'setSignedUp', 'setPatientDetail', 'setToken', 'selectedDayHourDoctor','setSelectedDay', 'setSelectedHour','selectedDoctorName', 'setLoggedIn', 'setUserId'])
 
         },
         computed: {

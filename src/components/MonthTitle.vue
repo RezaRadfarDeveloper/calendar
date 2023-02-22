@@ -21,13 +21,17 @@ export default {
              'June', 'July', 'August','September','October', 
              'November', 'December'],
              selectedMonth: '',
-             currentYear: '',
+             currentYear: '', 
              selectedYear: '',
              currentMonthDays:0
         }
+    }, 
+    beforeMounted() {
+      
     },
     mounted() {
-         this.selectedMonth = this.getCurrentMonth();
+      //* Bug Fix: should check if there is month selected in localStorage if not go with getCurrentMonth*
+         this.selectedMonth = this.getLastMonthOnPage ? this.getLastMonthOnPage : this.getCurrentMonth();
          this.setCurrentMonth(this.selectedMonth);
          this.setNextMonth(this.getAbsoluteNextMonth());
          //to get the next absolute month as we have the real current month here
@@ -73,6 +77,9 @@ export default {
                } 
                  else
                this.selectedMonth = this.months[currentMonthNum + 1];
+               this.setLastMonthOnPage(this.selectedMonth);
+               //setLastMonthOnPage: is to track the last month we have been before we go to login(if logged in). 
+               // this fixes the bug that month title and days shown are not match after jumping from home to profile or login
                this.setSelectedYear(this.selectedYear);
         },  
 
@@ -96,6 +103,7 @@ export default {
                }
                else
                  this.selectedMonth = this.months[currentMonthNum - 1];
+                 this.setLastMonthOnPage(this.selectedMonth);
                  this.setSelectedYear(this.selectedYear);
         },
 
@@ -127,10 +135,10 @@ export default {
         },
 
         ...mapActions(['setCurrentMonth', 'setNextMonth', 'setSelectedMonth', 'setDaysInCurrentMonth', 
-        'setDaysInNextMonth', 'setMonthCounter', 'setSelectedDays', 'setSelectedYear'])
+        'setDaysInNextMonth', 'setMonthCounter', 'setSelectedDays', 'setSelectedYear', 'setLastMonthOnPage'])
     },
     computed: {
-        ...mapGetters(['getMonthCounter', 'getSelectedMonth', 'getDoctorsList', 'getSelectedYear']),
+        ...mapGetters(['getMonthCounter', 'getSelectedMonth', 'getDoctorsList', 'getSelectedYear', 'getCurrentMonthName', 'getLastMonthOnPage']),
 
         daysInThisMonth() {
           var now = new Date();

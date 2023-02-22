@@ -56,14 +56,17 @@ const store = createStore({
             nextMonth: '',
             selectedMonth: 'Current',
             daysInCurrentMonth: 0,
+            currentMonthName: '',
             daysInNextMonth: 0,
             monthCounter: 1,
             selectedDays: [],
             signedUp: false,
+            loggedIn: false,
             userId: 0,
             token: null,
             showModal: false,
-            patientDetail: null
+            patientDetail: null,
+            lastMonthOnPage : null
         }
     },
     mutations: {
@@ -141,6 +144,15 @@ const store = createStore({
         },
         setPatientDetail(state, payload) {
             state.patientDetail = payload;
+        },
+        setCurrentMonthName(state, payload) {
+            state.currentMonthName = payload;
+        },
+        setLastMonthOnPage(state, payload) {
+            state.lastMonthOnPage = payload;
+        },
+        setLoggedIn(state, payload) {
+            state.loggedIn = payload;
         }
     },
     actions: {
@@ -208,6 +220,9 @@ const store = createStore({
             setSignedUp(context, payload) {
                 context.commit('setSignedUp', payload);
             },
+            setLoggedIn(context, payload) {
+                context.commit('setLoggedIn', payload);
+            },
             setUserId(context,payload) {
                 context.commit('setUserId', payload);
             },
@@ -233,7 +248,14 @@ const store = createStore({
                 localStorage.setItem('name', store.state.selectedDoctorName);
                 localStorage.setItem('month', 
                 store.state.selectedMonth ==='Current' ? store.state.currentMonth : store.state.nextMonth );
+                store.state.currentMonthName = store.state.selectedMonth === 'Current' ? store.state.currentMonth : store.state.nextMonth;
                 localStorage.setItem('year', store.state.selectedYear);
+              },
+              setCurrentMonthName(context, payload) {
+                context.commit('setCurrentMonthName', payload);
+              },
+              setLastMonthOnPage(context, payload) {
+                context.commit('setLastMonthOnPage', payload);
               }
      },
     getters: {
@@ -249,7 +271,7 @@ const store = createStore({
         doctorSelected(state) {
             return state.selectedDoctor;
         },
-
+        
         formIsValidated(state) {
             return state.formIsValid;
         },
@@ -301,6 +323,9 @@ const store = createStore({
         getSignedUp(state) {
             return state.signedUp;
         },
+        getLoggedIn(state) {
+            return state.loggedIn;
+        },
         getUserId(state) {
             return state.userId;
         },
@@ -312,6 +337,12 @@ const store = createStore({
         },
         getPatientDetail(state) {
             return state.patientDetail;
+        },
+        getCurrentMonthName(state) {
+            return state.currentMonthName;
+        },
+        getLastMonthOnPage(state) {
+            return state.lastMonthOnPage;
         }
     }
 })
@@ -322,18 +353,6 @@ const router = createRouter({
         { path: '/profile', 
         name: 'profile', 
         component: Profile,
-        // beforeEnter: () => {
-        //     // reject the navigation
-        //     const auth = store.state.signedUp;
-        //     if(!auth) {
-        //         console.log('not logged in');
-        //         return '';
-        //     }
-        //     else {
-        //         console.log('logged in');
-        //         return true;
-        //     }
-        //   }
         },
         { path: '/', 
         name: 'home', 

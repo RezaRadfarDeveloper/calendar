@@ -91,7 +91,7 @@
   
       ...mapGetters(['doctorSelected', 'formIsValidated', 'formFields',
        'getSignedUp', 'getUserId', 'getToken', 'getPatientDetail', 'getSelectedDay',
-       'getSelectedHour','getSelectedYear','getSelectedMonth'
+       'getSelectedHour','getSelectedYear','getSelectedMonth', 'getLoggedIn'
       ]),
   
       step() {
@@ -195,7 +195,6 @@
               localStorage.setItem('loggedIn', true);
               this.setUser(responsePack.localId);
               this.setToken(responsePack.idToken);
-              // this.fetchReservation({id:responsePack.localId, token: responsePack.idToken});
             }
           },
           //TBC the method to get user data based on the id
@@ -215,6 +214,10 @@
               this.signUp();
             }
           }
+
+          if(this.step === 'appointment' && this.getLoggedIn)
+          this.setUser(this.getUserId);
+
           if(this.step === 'appointment' && this.getSignedUp) {
            
               this.validateForm(true);
@@ -324,7 +327,7 @@
     width: 300px;
     height: 40%;
     max-height: 345px;
-    overflow: auto;
+    overflow: auto;    
     border: 1px solid rgb(100,175,160);
     border-radius: 4px;
     margin-left: 30px;
@@ -342,7 +345,6 @@
     background: transparent;
     border: none;
   }
-  
   .back-span {
     margin-right: 5px;
   }

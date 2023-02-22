@@ -20,7 +20,7 @@ export default {
         logout() {
             this.setModal(true);
             setTimeout(() => {
-                this.setToken(null);
+            this.setToken(null);
             this.setUserId(0);
             this.setSelectedDay(0);
             this.setSelectedHour(0);
@@ -34,7 +34,8 @@ export default {
             localStorage.setItem('details',JSON.stringify({}));
             localStorage.setItem('loggedIn',JSON.stringify(false));
             this.setModal(false);
-            this.$router.push({name:"home"})
+            this.$router.push({name:"home"});
+            // location.reload();
             },2000);
 
 
