@@ -47,7 +47,7 @@ const store = createStore({
                 name:'name is required',
                 family: 'family is required',
                 password: 'password is required and should be at least 8 characters',
-                dateOfBirth: 'date of birth is required'
+                // dateOfBirth: 'date of birth is required'
             },
             validationClicked: false,
             selectedDay: 0,

@@ -30,8 +30,8 @@
         <div class="row-birth">
             <div class="birth-date">
                 <label for="" class="birth-label">Date of Birth*</label>
-                <input type="date" name="birth_date" id="birth-date" :class="{'is-invalid': formErrors.dateOfBirth &&  getValidationClicked}" v-model="dateOfBirth">
-                <div v-if="formErrors.dateOfBirth !== '' && getValidationClicked " :class="{'is-invalid-text': formErrors.dateOfBirth &&  getValidationClicked}"> {{formErrors.dateOfBirth}}</div>
+                <input type="date" name="birth_date" id="birth-date">
+                <!-- <div v-if="formErrors.dateOfBirth !== '' && getValidationClicked " :class="{'is-invalid-text': formErrors.dateOfBirth &&  getValidationClicked}"> {{formErrors.dateOfBirth}}</div> -->
             </div>
             
         </div>
@@ -71,8 +71,8 @@ export default {
             errors: {
                 name: 'name is required',
                 family: 'family is required',
-                password: 'password is required',
-                dateOfBirth: 'date of birth is required'
+                password: 'password is required'
+                // dateOfBirth: 'date of birth is required'
             }
         }
     },
@@ -94,8 +94,8 @@ export default {
                this.setFormErrors({
                 name:this.patientName.trim() === '' ?'name is required': '',
                 family: this.patientFamily.trim()=== '' ?'family is required': '',
-                password: this.password.length < 8  ?'password is required and should be at least 8 character': '',
-                dateOfBirth: this.dateOfBirth.trim()=== '' ?'date of birth is required': '',
+                password: this.password.length < 8  ?'password is required and should be at least 8 character': ''
+                // dateOfBirth: this.dateOfBirth.trim()=== '' ?'date of birth is required': '',
                })
         },
         ...mapActions(['validateForm', 'setFormFields','setFormErrors'])
@@ -105,8 +105,8 @@ export default {
         hasError() {
             return this.patientFamily.trim() === '' ||
             this.patientName.trim() === '' ||
-            (this.password.length < 8) || 
-            this.dateOfBirth === ''
+            (this.password.length < 8) 
+            // || this.dateOfBirth === ''
         },
         ...mapGetters(['formIsValidated','formErrors', 'formFields','getValidationClicked', 'formErrors'])
     },

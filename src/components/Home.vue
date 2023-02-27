@@ -251,24 +251,13 @@
           this.validateForm(false);
           this.setFormFields({});
           this.setValidationClicked(false);
-          this.setFormErrors({ name:'name is required',
+          this.setFormErrors({
+             name:'name is required',
                   family: 'family is required',
-                  password: 'password is required and should be at least 8 character',
-                  dateOfBirth: 'date of birth is required'});
+                  password: 'password is required and should be at least 8 character'
+                  // dateOfBirth: 'date of birth is required'
+                });
         },
-        // selectedDayHourDoctor() {
-        //   localStorage.setItem('day', this.day);
-        //   localStorage.setItem('hour', this.hour);
-        //   localStorage.setItem('name', this.doctorSelected.name);
-        // },
-        // setPatientDetails() {
-        //   const patientDetails = {
-        //     name: this.formFields.name,
-        //     family: this.formFields.family,
-        //     email: this.formFields.email
-        //   }
-        //   localStorage.setItem('details',JSON.stringify(patientDetails));
-        // },
        async  setUser(userId) {
               const user = {
                 hour: this.hour,
