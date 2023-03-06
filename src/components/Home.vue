@@ -26,8 +26,10 @@
   </div>
   <div v-if="step === 'finalize'" class="d-flex justify-content-start container ml-5 mt-5 mb-5">
     yes
-    <Button  :class=" step === 'finalize' ? 'd-block' : 'd-none'" :buttonText="step" @click="setStep('finalize','continue')"></Button>
-  
+    <Button  :class=" step === 'finalize' ? 'd-block' : 'd-none'" :buttonText="step" @click="setStep('finalize','info')"></Button>
+  </div>
+  <div v-if="step==='info'" class="d-flex justify-content-start container ml-5 mt-5 mb-5">
+      <Info></Info>
   </div>
   <Back v-if="oldStep !== ''" @click="setStep(twoStepBefore,oldStep);resetValidation();"></Back>
 
@@ -43,6 +45,7 @@
   import Button from './Button.vue';
   import Form from './Form.vue';
   import HoursTable from './HoursTable.vue';
+  import Info from './Info.vue';
   import Back from './Back.vue';
   import SignedUp from './SignedUp.vue';
   import { hourTable } from '../data';
@@ -81,7 +84,8 @@
       Form,
       Back,
       SignedUp,
-      HoursTable
+      HoursTable,
+      Info
    },
   
   computed: {

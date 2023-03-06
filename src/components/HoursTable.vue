@@ -1,6 +1,6 @@
 <template>
     <div class="hour-sets">
-          <span v-for="hour in hourSet" :key="hour.id">{{ hour.id }}) {{ hour.time }}</span>
+          <span v-for="hour in hourSet" :key="hour.id">{{ hour.id }}. {{ hour.time }}</span>
         </div>
 </template>
 
@@ -31,5 +31,6 @@ export default {
     display: flex;
     justify-content: center;
     align-items: center;
+    color: #4e6876;
   }
 </style>
