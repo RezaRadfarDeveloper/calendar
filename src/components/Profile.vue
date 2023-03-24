@@ -5,7 +5,7 @@
             <div class="session-info">
                     <div class="row"> <h3>day:{{ getSelectedDay }}</h3> 
                         <h3>hour: {{ getSelectedHour }}</h3> 
-                        <h3>Month: {{ month }}</h3>  
+                        <h3>Month: {{ getSelectedMonthName }}</h3>  
                         <h3>Year: {{ getSelectedYear }}</h3>
                         <h3>Doctor: {{ getSelectedDoctorName }}</h3>
                     </div>
@@ -36,7 +36,8 @@ export default {
         'getCurrentMonth',
         'getNextMonth', 
         'getSelectedYear',
-        'getSelectedDoctorName'
+        'getSelectedDoctorName',
+        'getSelectedMonthName'
     ])
     },
     methods: {

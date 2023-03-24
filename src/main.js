@@ -66,7 +66,8 @@ const store = createStore({
             token: null,
             showModal: false,
             patientDetail: null,
-            lastMonthOnPage : null
+            lastMonthOnPage : null,
+            selectedMonthName: ''
         }
     },
     mutations: {
@@ -153,6 +154,9 @@ const store = createStore({
         },
         setLoggedIn(state, payload) {
             state.loggedIn = payload;
+        },
+        setSelectedMonthName(state, payload) {
+            state.selectedMonthName = payload;
         }
     },
     actions: {
@@ -256,7 +260,10 @@ const store = createStore({
               },
               setLastMonthOnPage(context, payload) {
                 context.commit('setLastMonthOnPage', payload);
-              }
+              },
+              setSelectedMonthName(context, payload) {
+                context.commit('setSelectedMonthName', payload);
+            }
      },
     getters: {
         finalCounter(state) {
@@ -343,6 +350,9 @@ const store = createStore({
         },
         getLastMonthOnPage(state) {
             return state.lastMonthOnPage;
+        },
+        getSelectedMonthName(state) {
+            return state.selectedMonthName;
         }
     }
 })

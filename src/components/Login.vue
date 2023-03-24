@@ -81,10 +81,11 @@ import Button from './Button.vue';
               this.selectedDayHourDoctor();
               this.setPatientDetail(patientDetails);
               this.setUserId(responsePack.id);
+              this.setSelectedMonth(responsePack.month);
             }
 
           }, 
-            ...mapActions(['validateForm', 'setFormFields','setFormErrors', 'setSignedUp', 'setPatientDetail', 'setToken', 'selectedDayHourDoctor','setSelectedDay', 'setSelectedHour','selectedDoctorName', 'setLoggedIn', 'setUserId'])
+            ...mapActions(['validateForm', 'setFormFields','setFormErrors', 'setSignedUp', 'setPatientDetail', 'setToken', 'selectedDayHourDoctor','setSelectedDay', 'setSelectedHour','selectedDoctorName', 'setLoggedIn', 'setUserId', 'setSelectedMonth'])
 
         },
         computed: {

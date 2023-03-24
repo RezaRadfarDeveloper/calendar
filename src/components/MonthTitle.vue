@@ -39,6 +39,7 @@ export default {
          this.setDaysInCurrentMonth(this.daysInThisMonth);
          this.setDaysInNextMonth(this.daysInNextMonth);
          this.setSelectedYear(this.selectedYear);
+         this.setSelectedMonthName(this.selectedMonth);
     },
 
     methods: {
@@ -81,6 +82,7 @@ export default {
                //setLastMonthOnPage: is to track the last month we have been before we go to login(if logged in). 
                // this fixes the bug that month title and days shown are not match after jumping from home to profile or login
                this.setSelectedYear(this.selectedYear);
+               this.setSelectedMonthName(this.selectedMonth);
         },  
 
         getPreviousMonth() {
@@ -105,6 +107,8 @@ export default {
                  this.selectedMonth = this.months[currentMonthNum - 1];
                  this.setLastMonthOnPage(this.selectedMonth);
                  this.setSelectedYear(this.selectedYear);
+                 this.setCurrentMonthName(this.selectedMonth);
+                 this.setSelectedMonthName(this.selectedMonth);
         },
 
         getCurrentYear() {
@@ -134,8 +138,8 @@ export default {
            return days.sort().slice(count, beforeCount);
         },
 
-        ...mapActions(['setCurrentMonth', 'setNextMonth', 'setSelectedMonth', 'setDaysInCurrentMonth', 
-        'setDaysInNextMonth', 'setMonthCounter', 'setSelectedDays', 'setSelectedYear', 'setLastMonthOnPage'])
+        ...mapActions(['setCurrentMonth', 'setCurrentMonthName' ,'setNextMonth', 'setSelectedMonth', 'setDaysInCurrentMonth', 
+        'setDaysInNextMonth', 'setMonthCounter', 'setSelectedDays', 'setSelectedYear', 'setLastMonthOnPage', 'setSelectedMonthName'])
     },
     computed: {
         ...mapGetters(['getMonthCounter', 'getSelectedMonth', 'getDoctorsList', 'getSelectedYear', 'getCurrentMonthName', 'getLastMonthOnPage']),
