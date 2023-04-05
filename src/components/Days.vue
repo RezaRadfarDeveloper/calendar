@@ -1,7 +1,7 @@
 <template>
     <div class="days">
         <Day v-for="i in getDaysInCurrentMonth" :key="i" :disabledDay="!dayDisabled(i)" :selectedDay="selectedDay" :day="i" @activate="activate"></Day>   
-    </div>
+    </div> 
 </template>
 
 <script>
