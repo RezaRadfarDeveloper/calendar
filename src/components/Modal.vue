@@ -1,29 +1,28 @@
 <template>
-    <div v-if="getModal" class="customModal">
-        <Loading :content="'Logging out'"></Loading>    
-        </div>
+  <div v-if="getModal" class="customModal">
+    <Loading :content="'Logging out'"></Loading>
+  </div>
 </template>
 
 <script>
-import { mapGetters } from 'vuex'
-import Loading from './Loading.vue';
+import { mapGetters } from "vuex";
+import Loading from "./Loading.vue";
 
 export default {
-    components: {
-        Loading
-    },
-    computed: {
-        ...mapGetters(['getModal'])
-    }
-}
+  components: {
+    Loading,
+  },
+  computed: {
+    ...mapGetters(["getModal"]),
+  },
+};
 </script>
 
-
-<style>
+<style scoped>
 .customModal {
   height: 200px;
   width: 400px;
-  background-color:rgba(241, 241, 218, 1);
+  background-color: rgba(241, 241, 218, 1);
   position: absolute;
   top: 200px;
   left: 50vw;

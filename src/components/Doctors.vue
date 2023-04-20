@@ -50,7 +50,6 @@ export default {
     },
     //  hours cannot be selected without day selected
     selectDoctors() {
-      console.log("selectedMonth is: " + this.getSelectedMonth);
       if (this.getSelectedMonth === "Current") var month = "Current";
       else month = "NextMonth";
       this.activeLoader();

@@ -1,9 +1,11 @@
 <template>
-    <i class="bi bi-check2 change"></i>
+  <i class="bi bi-check2 change"></i>
 </template>
 
-<style>
+<style scoped>
 .change {
-    color:orangered; font-size:xx-large; margin-bottom: 8px;
+  color: orangered;
+  font-size: xx-large;
+  margin-bottom: 8px;
 }
 </style>

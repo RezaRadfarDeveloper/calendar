@@ -1,76 +1,84 @@
 <template>
-    <div class="hour">
-        <div class="hourRectangle"   :class="[selected ? 'selectedClass' : '', disabledHour ?'disHour': '']"  @click="activate(hour)"><span>{{hour}}</span></div>
+  <div class="hour">
+    <div
+      class="hourRectangle"
+      :class="[selected ? 'selectedClass' : '', disabledHour ? 'disHour' : '']"
+      @click="activate(hour)"
+    >
+      <span>{{ hour }}</span>
     </div>
+  </div>
 </template>
 
 <script>
-import { mapActions, mapGetters } from 'vuex';
+import { mapActions, mapGetters } from "vuex";
 export default {
-    props: ['hour', 'selectedHour', 'disabledHour'],
-    data() {
-        return {
-          
-        }
+  props: ["hour", "selectedHour", "disabledHour"],
+  data() {
+    return {};
+  },
+  methods: {
+    activate(hour) {
+      this.setSelectedHour(hour);
+      this.$emit("activate", hour);
+      // this.$store.dispatch('increment', 6);
     },
-    methods: {
-        activate(hour) {
-        this.setSelectedHour(hour)
-            this.$emit('activate',hour)
-            // this.$store.dispatch('increment', 6);
-        },
-        ...mapActions(['setSelectedHour'])
+    ...mapActions(["setSelectedHour"]),
+  },
+  computed: {
+    selected() {
+      return (
+        (this.hour === this.selectedHour ||
+          this.hour === this.getSelectedHour) &&
+        !this.$store.getters.hourSelected
+      );
     },
-    computed: {
-        selected() {
-            return (this.hour === this.selectedHour || this.hour === this.getSelectedHour) && !this.$store.getters.hourSelected;
-        },
-        // counter() {
-        //   return   this.$store.getters.finalCounter;
-        // }
-        ...mapGetters(['finalCounter', 'getSelectedHour'])
-    }
-}
+    // counter() {
+    //   return   this.$store.getters.finalCounter;
+    // }
+    ...mapGetters(["finalCounter", "getSelectedHour"]),
+  },
+};
 </script>
 
-<style>
+<style scoped>
 .hour {
-    width: 20%;
-    height: 16%;
-    background-color: white;
-    display: flex;
-    margin-left:10px;
-    justify-content: space-between;
-    align-items: center;
+  width: 20%;
+  height: 16%;
+  background-color: white;
+  display: flex;
+  margin-left: 10px;
+  justify-content: space-between;
+  align-items: center;
 }
 
 .hourRectangle {
-    width: 60px;
-    height: 20px;
-    border-radius: 2px;
-    border:solid 1px rgb(100,175,160);
-    color: #4e6876;
-    font-weight: 500;
-    font-size: 14px;
-    display: flex;
-    justify-content: center;
-    align-items: center;
+  width: 60px;
+  height: 20px;
+  border-radius: 2px;
+  border: solid 1px rgb(100, 175, 160);
+  color: #4e6876;
+  font-weight: 500;
+  font-size: 14px;
+  display: flex;
+  justify-content: center;
+  align-items: center;
 }
 
 .hourRectangle:hover {
-    cursor: pointer;
-    background-color: rgb(100,175,160);
-    color:white;
+  cursor: pointer;
+  background-color: rgb(100, 175, 160);
+  color: white;
 }
 
 .selectedClass {
-    background-color: rgb(100,175,160);
-    color:white;
+  background-color: rgb(100, 175, 160);
+  color: white;
 }
 
 .disHour {
-   background-color:  #4e6876;
-   color: white;
-   pointer-events: none;
+  background-color: #4e6876;
+  color: white;
+  pointer-events: none;
 }
 </style>
