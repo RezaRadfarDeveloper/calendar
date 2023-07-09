@@ -1,5 +1,5 @@
 <template>
-  <div class="footer">Testing Continuos deployment</div>
+  <div class="footer"></div>
 </template>
 
 <script></script>
